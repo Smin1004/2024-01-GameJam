@@ -21,7 +21,6 @@ public class MoveManager : MonoBehaviour
     private List<MoveEnemy_Base> moveEnemy;
     private List<MoveObj_Base> moveObj;
     private List<MoveGround_Base> moveGround; //이동식 땅 임시 리스트
-    private List<MoveGround_Base> onOffGround;
 
     public void Init()
     {
@@ -32,11 +31,6 @@ public class MoveManager : MonoBehaviour
     {
         foreach (var obj in moveObj) obj.NextTiming();
         foreach (var enemy in moveEnemy) enemy.NextTiming();
-    }
-
-    public void OnOff()
-    {
-        foreach (var onoff in onOffGround) onoff.Use();
     }
 
     /// <summary>
@@ -119,12 +113,11 @@ public class MoveManager : MonoBehaviour
         if (enemy != null) moveEnemy.Remove(enemy);
     }
 
-    public void MapInit(MoveGround_Base[,] _curMap, int[,] _curGroundMap, List<MoveGround_Base> _moveGround, List<MoveGround_Base> _onoff)
+    public void MapInit(MoveGround_Base[,] _curMap, int[,] _curGroundMap, List<MoveGround_Base> _moveGround)
     {
         curMap = _curMap;
         curGroundMap = _curGroundMap;
         moveGround = _moveGround;
-        onOffGround = _onoff;
 
         curMoveMap = new int[_curGroundMap.GetLength(0), _curGroundMap.GetLength(1)];
     }

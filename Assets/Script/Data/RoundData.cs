@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "StageData", menuName = "Game/RoundData", order = 1), Serializable]
+[CreateAssetMenu(fileName = "RoundData", menuName = "Game/RoundData", order = 1), Serializable]
 public class RoundData : ScriptableObject
 {
     private static RoundData _instance = null;
@@ -11,9 +11,6 @@ public class RoundData : ScriptableObject
 
     public int stageIndex;
     public int mapIndex;
-    public bool isEasy = false;
-    public bool isTop = false;
-    public bool isMute = true;
 
 
     public void Reset(int index)

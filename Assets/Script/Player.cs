@@ -14,17 +14,17 @@ public class Player : Mob_Base
     [SerializeField] private AudioClip moveSound;
     [SerializeField] private AudioClip attackSound;
     [SerializeField] private AudioClip dieSound;
-    [SerializeField] private TextMeshProUGUI hpbar;
+    [SerializeField] private Text hpbar;
 
     [SerializeField] private int HP;
-    [SerializeField] private bool isEasy;
 
     public int isKey;
     public bool isLobby;
     public bool isDead;
+    public bool cantMove;
 
     private Vector2Int plusPos;
-    public bool cantMove;
+    private float x, y;
 
     public void Init()
     {
@@ -38,26 +38,20 @@ public class Player : Mob_Base
         cantMove = false;
     }
 
+    private void Update() {
+        Move();
+    }
+
     public void Setting(int hp)
     {
-        isEasy = RoundData.Instance.isEasy;
-
-        if (!isEasy)
-        {
-            HP = hp;
-            hpbar.text = HP.ToString();
-        }
-        else hpbar.text = new("∞");
+        HP = hp;
+        hpbar.text = HP.ToString();
     }
 
     public void Damage(bool isAttack)
     {
-        if (!isEasy)
-        {
-            HP -= 1;
-            hpbar.text = HP.ToString();
-        }
-        else return;
+        HP -= 1;
+        hpbar.text = HP.ToString();
 
         if (HP <= 0)
         {
@@ -66,34 +60,22 @@ public class Player : Mob_Base
         }
     }
 
-    public void Move(string type)
+    private void Move()
     {
         if (isDead || cantMove) return;
 
-        else switch (type)
-            {
-                case "Up": CheckMove(Vector3.forward); break;
-                case "Down": CheckMove(Vector3.back); break;
-                case "Right": CheckMove(Vector3.right); break;
-                case "Left": CheckMove(Vector3.left); break;
-            }
+        if(Input.GetKeyDown(KeyCode.W)) CheckMove(Vector2.up);
+        if(Input.GetKeyDown(KeyCode.A)) CheckMove(Vector2.left);
+        if(Input.GetKeyDown(KeyCode.S)) CheckMove(Vector2.down);
+        if(Input.GetKeyDown(KeyCode.D)) CheckMove(Vector2.right);
     }
 
-    private void CheckMove(Vector3 movePos)
+    private void CheckMove(Vector2 movePos)
     {
-        Vector2Int _plusPos = Vector2Int.zero;
-
-        if (movePos == Vector3.forward) _plusPos = Vector2Int.up;
-        if (movePos == Vector3.back) _plusPos = Vector2Int.down;
-        if (movePos == Vector3.right) _plusPos = Vector2Int.right;
-        if (movePos == Vector3.left) _plusPos = Vector2Int.left;
-
-        plusPos = _plusPos;
-
-        RookPlayer(movePos);
         Managers.Sound.Play(moveSound);
 
-        int action = MoveManager.Instance.MoveCheck(curPos, plusPos, true);
+        int action = MoveManager.Instance.MoveCheck(curPos, Vector2Int.RoundToInt(movePos), true);
+        Debug.Log(action);
 
         switch (action)
         {

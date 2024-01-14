@@ -8,9 +8,9 @@ public class MapGenerator : MonoBehaviour
     [SerializeField] private List<StageData> stageList;
     [SerializeField] private StageData curStage;
     [SerializeField] private Player player;
-    [SerializeField] private MoveManager moveManager;
     [SerializeField] private int stageIndex;
     [SerializeField] private int mapIndex;
+    private MoveManager moveManager;
 
     private List<MapData> battleMapData = new();
     private List<GameObject> mapTile = new();
@@ -43,27 +43,25 @@ public class MapGenerator : MonoBehaviour
         int[,] curGroundData = LoadCSV.Load(curMap.groundMap);
         int[,] totalData = new int[curGroundData.GetLength(0), curGroundData.GetLength(1)];
         MoveGround_Base[,] groundMap = new MoveGround_Base[curGroundData.GetLength(0), curGroundData.GetLength(1)];
-        List<MoveGround_Base> moveGround = new();
-        List<MoveGround_Base> onOff = new();
 
         for (int i = 0; i < curGroundData.GetLength(0); i++) for (int j = 0; j < curGroundData.GetLength(1); j++)
             {
                 if (curGroundData[i, j] == 0) continue; // void
 
                 var temp = Instantiate(mapTile[curGroundData[i, j] - 1],
-                new Vector3(i, -1, j), Quaternion.identity, transform);
+                new Vector3(i, j), Quaternion.identity, transform);
 
                 if (temp.TryGetComponent<MoveGround_Base>(out var move))
                 {
                     move.curPos = new(i, j);
                     move.index = curGroundData[i, j];
 
-                    if(move.isUse) { curGroundData[i, j] = 99; groundMap[i, j] = move;}
-                    else moveGround.Add(move);
+                    curGroundData[i, j] = 99;
+                    groundMap[i, j] = move;
                 }
             }
 
-        moveManager.MapInit(groundMap, curGroundData, moveGround);
+        moveManager.MapInit(groundMap, curGroundData);
         Spawn(curMap, totalData);
     }
 
@@ -80,7 +78,7 @@ public class MapGenerator : MonoBehaviour
         for (int i = 0; i < curObjData.GetLength(0); i++) for (int j = 0; j < curObjData.GetLength(1); j++)
             {
                 if (curObjData[i, j] == 0) continue; // void
-                var temp = Instantiate(mapObj[curObjData[i, j] - 1], new Vector3(i, 0, j),
+                var temp = Instantiate(mapObj[curObjData[i, j] - 1], new Vector3(i, j),
                 Quaternion.identity, transform).GetComponent<Obj_Base>();
                 temp.curPos = new(i, j);
                 obj[i, j] = temp;
@@ -96,7 +94,7 @@ public class MapGenerator : MonoBehaviour
             {
                 if (curEnemyData[i, j] <= 1) continue; // void
 
-                var temp = Instantiate(mapEnemy[curEnemyData[i, j] - 2], new Vector3(i, 0, j), Quaternion.identity).GetComponent<Enemy_Base>();
+                var temp = Instantiate(mapEnemy[curEnemyData[i, j] - 2], new Vector3(i, j), Quaternion.identity).GetComponent<Enemy_Base>();
                 temp.curPos = new(i, j);
                 if (temp.TryGetComponent<MoveEnemy_Base>(out var move))
                 {
@@ -119,12 +117,14 @@ public class MapGenerator : MonoBehaviour
                 map[i, j] = temp;
             }
 
+        Debug.Log($"{map == null} {obj == null} {moveObj == null} {moveEnemy == null} {curObjData == null}");
         moveManager.MobInit(map, obj, moveObj, moveEnemy, curObjData);
     }
 
     private void Awake()
     {
         player.Init();
+        moveManager = GetComponent<MoveManager>();
         moveManager.Init();
         Init();
         ChoiceMap();

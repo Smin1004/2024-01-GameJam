@@ -20,7 +20,6 @@ public class MoveManager : MonoBehaviour
     private Obj_Base[,] curObj;
     private List<MoveEnemy_Base> moveEnemy;
     private List<MoveObj_Base> moveObj;
-    private List<MoveGround_Base> moveGround; //이동식 땅 임시 리스트
 
     public void Init()
     {
@@ -56,6 +55,7 @@ public class MoveManager : MonoBehaviour
         {
             if (isPlayer)
             {
+                Debug.Log(curMob[movePos.x, movePos.y] == null);
                 if (curMob[movePos.x, movePos.y].TryGetComponent<MoveEnemy_Base>(out var e))
                 {
                     if (e.dirMove)
@@ -113,11 +113,10 @@ public class MoveManager : MonoBehaviour
         if (enemy != null) moveEnemy.Remove(enemy);
     }
 
-    public void MapInit(MoveGround_Base[,] _curMap, int[,] _curGroundMap, List<MoveGround_Base> _moveGround)
+    public void MapInit(MoveGround_Base[,] _curMap, int[,] _curGroundMap)
     {
         curMap = _curMap;
         curGroundMap = _curGroundMap;
-        moveGround = _moveGround;
 
         curMoveMap = new int[_curGroundMap.GetLength(0), _curGroundMap.GetLength(1)];
     }
@@ -127,6 +126,7 @@ public class MoveManager : MonoBehaviour
         curObjMap = _curObjMap;
         curMob = _map;
         curObj = _obj;
+        Debug.Log($"in {curObjMap == null} {curMob == null} {curObj == null}");
 
         moveObj = _moveObj.ToList();
         moveEnemy = _moveEnemy.ToList();
@@ -142,7 +142,7 @@ public class MoveManager : MonoBehaviour
                 if (_curObjMap[i, j] == 1)
                 {
                     curMoveMap[i, j] = 1;
-                    Player.Instance.transform.position = new Vector3(i, 0, j);
+                    Player.Instance.transform.position = new Vector3(i, j);
                     Player.Instance.curPos = new Vector2Int(i, j);
                 }
 

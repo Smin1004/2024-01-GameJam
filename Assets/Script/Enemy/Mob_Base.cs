@@ -11,7 +11,7 @@ public abstract class Mob_Base : MonoBehaviour
 
     protected virtual void Start()
     {
-        anim = GetComponent<Animator>();
+        //anim = GetComponent<Animator>();
         dieAction += DieDestroy;
     }
 

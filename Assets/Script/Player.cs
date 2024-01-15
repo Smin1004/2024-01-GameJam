@@ -18,12 +18,10 @@ public class Player : Mob_Base
 
     [SerializeField] private int HP;
 
-    public int isKey;
-    public bool isLobby;
+    public bool isSubWeapon;
     public bool isDead;
 
-    private Vector2Int plusPos;
-    private float x, y;
+    [HideInInspector] public Vector2Int redirecting;
     private bool isMove;
 
     public void Init()
@@ -48,7 +46,7 @@ public class Player : Mob_Base
         hpbar.text = HP.ToString();
     }
 
-    public void Damage(bool isAttack)
+    public void Damage()
     {
         HP -= 1;
         hpbar.text = HP.ToString();
@@ -64,25 +62,30 @@ public class Player : Mob_Base
     {
         if (isDead || isMove) return;
 
-        if(Input.GetKeyDown(KeyCode.W)) CheckMove(Vector2.up);
-        if(Input.GetKeyDown(KeyCode.A)) CheckMove(Vector2.left);
-        if(Input.GetKeyDown(KeyCode.S)) CheckMove(Vector2.down);
-        if(Input.GetKeyDown(KeyCode.D)) CheckMove(Vector2.right);
+        if (Input.GetKeyDown(KeyCode.W)) { isMove = true; CheckMove(Vector2.up); }
+        if (Input.GetKeyDown(KeyCode.A)) { isMove = true; CheckMove(Vector2.left); }
+        if (Input.GetKeyDown(KeyCode.S)) { isMove = true; CheckMove(Vector2.down); }
+        if (Input.GetKeyDown(KeyCode.D)) { isMove = true; CheckMove(Vector2.right); }
     }
 
     private void CheckMove(Vector2 movePos)
     {
-        isMove = true;
         Managers.Sound.Play(moveSound);
 
+        redirecting = Vector2Int.RoundToInt(movePos);
         int action = MoveManager.Instance.MoveCheck(curPos, Vector2Int.RoundToInt(movePos));
 
         switch (action)
         {
             case 0: curPos = Vector2Int.RoundToInt(curPos + movePos); StartCoroutine(MovePlayer(movePos, 0.2f)); break;
-            case 1: isMove = false; break;
-            case 2: Attack(); isMove = false; break;
+            case 1: TrunEnd(); break;
+            case 2: Attack(); TrunEnd(); break;
         }
+    }
+
+    void TrunEnd(){
+        isMove = false;
+        MoveManager.Instance.NextTiming();
     }
 
     void Attack()
@@ -113,6 +116,6 @@ public class Player : Mob_Base
         }
 
         transform.position = targetPos;
-        CheckMove(direction);
+        CheckMove(redirecting);
     }
 }

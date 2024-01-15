@@ -11,7 +11,7 @@ public class OriginalEnemy : Enemy_Base
 
     protected override void DieDestroy()
     {
-        MoveManager.Instance.DestroyEnemy(curPos);
+        MoveManager.Instance.DestroyEnemy(curPos, this);
         base.DieDestroy();
     }
 }

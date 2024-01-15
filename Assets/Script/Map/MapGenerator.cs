@@ -42,7 +42,6 @@ public class MapGenerator : MonoBehaviour
     {
         int[,] curGroundData = LoadCSV.Load(curMap.groundMap);
         int[,] totalData = new int[curGroundData.GetLength(0), curGroundData.GetLength(1)];
-        MoveGround_Base[,] groundMap = new MoveGround_Base[curGroundData.GetLength(0), curGroundData.GetLength(1)];
 
         for (int i = 0; i < curGroundData.GetLength(0); i++) for (int j = 0; j < curGroundData.GetLength(1); j++)
             {
@@ -50,15 +49,6 @@ public class MapGenerator : MonoBehaviour
 
                 var temp = Instantiate(mapTile[curGroundData[i, j] - 1],
                 new Vector3(i, j), Quaternion.identity, transform);
-
-                if (temp.TryGetComponent<MoveGround_Base>(out var move))
-                {
-                    move.curPos = new(i, j);
-                    move.index = curGroundData[i, j];
-
-                    curGroundData[i, j] = 99;
-                    groundMap[i, j] = move;
-                }
             }
 
         moveManager.MapInit(curGroundData);
@@ -69,11 +59,10 @@ public class MapGenerator : MonoBehaviour
     {
         Enemy_Base[,] map = new Enemy_Base[curMap.GetLength(0), curMap.GetLength(1)];
         Obj_Base[,] obj = new Obj_Base[curMap.GetLength(0), curMap.GetLength(1)];
-        //List<MoveObj_Base> moveObj = new();
-        List<MoveEnemy_Base> moveEnemy = new();
 
         int[,] curObjData = LoadCSV.Load(Map.objMap);
         int[,] curEnemyData = LoadCSV.Load(Map.enemyMap);
+        List<Enemy_Base> enemy = new();
 
         for (int i = 0; i < curObjData.GetLength(0); i++) for (int j = 0; j < curObjData.GetLength(1); j++)
             {
@@ -82,42 +71,20 @@ public class MapGenerator : MonoBehaviour
                 Quaternion.identity, transform);
                 temp.curPos = new(i, j);
                 obj[i, j] = temp;
-
-                // if (temp.TryGetComponent<MoveObj_Base>(out var move))
-                // {
-                //     move.index = curObjData[i, j];
-                //     moveObj.Add(move);
-                // }
             }
 
         for (int i = 0; i < curEnemyData.GetLength(0); i++) for (int j = 0; j < curEnemyData.GetLength(1); j++)
             {
-                if (curEnemyData[i, j] <= 1) continue; // void
+                if (curEnemyData[i, j] == 0) continue; // void
 
-                var temp = Instantiate(mapEnemy[curEnemyData[i, j] - 2], new Vector3(i, j), Quaternion.identity);
+                var temp = Instantiate(mapEnemy[curEnemyData[i, j] - 1], new Vector3(i, j), Quaternion.identity);
                 temp.curPos = new(i, j);
-                if (temp.TryGetComponent<MoveEnemy_Base>(out var move))
-                {
-                    for (int k = -1; k <= 1; k++) for (int l = -1; l <= 1; l++)
-                        {
-                            if (k != 0 && l != 0) continue;
-                            else if (k == 0 && l == 0) continue;
-
-                            int x = i + k;
-                            int y = j + l;
-
-                            if (curEnemyData[x, y] == 1)
-                            {
-                                move.attackPos = new(x, y);
-                                moveEnemy.Add(move);
-                            }
-                        }
-                }
 
                 map[i, j] = temp;
+                enemy.Add(temp);
             }
 
-        moveManager.MobInit(map, obj, moveEnemy, curObjData);
+        moveManager.MobInit(map, obj, enemy, curObjData);
     }
 
     private void Awake()

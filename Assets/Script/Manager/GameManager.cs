@@ -4,30 +4,15 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public float musicVolume;
-    public float sfxVolume;
-
-    public string upKey;
-    public string downKey;
-    public string leftKey;
-    public string rightKey;
-    public string swapKey;
-
-    public GameManager instance
+    // Start is called before the first frame update
+    void Start()
     {
-        get
-        {
-            if (_instance == null)
-            {
-                _instance = FindObjectOfType<GameManager>();
-                if(_instance == null)
-                {
-                    GameObject temp = new GameObject(typeof(GameManager).Name);
-                    _instance = temp.AddComponent<GameManager>();
-                }
-            }
-            return _instance;
-        }
+        
     }
-    public GameManager _instance;
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
 }

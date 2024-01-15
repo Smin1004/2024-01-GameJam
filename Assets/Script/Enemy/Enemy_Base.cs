@@ -8,13 +8,28 @@ public abstract class Enemy_Base : Mob_Base
 {
     [Header("Enemy_Base")]
     [SerializeField] protected bool cantDie;
-    [SerializeField] protected GameObject deadEffect;
+    private bool isAttack;
     public bool cantMove;
-    
+
     protected override void Start()
     {
         base.Start();
         transform.LookAt(transform.position + Vector3.back);
+    }
+
+    public void PlayerCheck()
+    {
+        int action = MoveManager.Instance.EnemyAttackCheck(curPos);
+
+        if (action == 2)
+        {
+            if (isAttack)
+            {
+                Player.Instance.Damage();
+                isAttack = false;
+            }else isAttack = true;
+        }
+        else isAttack = false;
     }
 
     public virtual void Hit(Vector2Int plusPos)
@@ -26,14 +41,14 @@ public abstract class Enemy_Base : Mob_Base
         if (plusPos == Vector2Int.right) movePos = Vector3.right;
         if (plusPos == Vector2Int.left) movePos = Vector3.left;
 
-        if(cantMove) return;
+        if (cantMove) return;
 
         int action = MoveManager.Instance.MoveCheck(curPos, plusPos, true);
 
         switch (action)
         {
             case 0: curPos = curPos + plusPos; StartCoroutine(MoveEnemy(movePos, 0.2f)); break;
-            case 1: if(!cantDie) dieAction?.Invoke(); break;
+            case 1: if (!cantDie) dieAction?.Invoke(); break;
             case 2: break;
         }
     }
@@ -41,7 +56,6 @@ public abstract class Enemy_Base : Mob_Base
     protected override void DieDestroy()
     {
         Managers.Resource.Destroy(gameObject);
-        Instantiate(deadEffect, transform.position, Quaternion.identity);
     }
 
     protected IEnumerator MoveEnemy(Vector3 direction, float sec)

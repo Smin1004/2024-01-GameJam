@@ -17,8 +17,7 @@ public class MoveManager : MonoBehaviour
     private int[,] curMoveMap;
     private Enemy_Base[,] curMob;
     private Obj_Base[,] curObj;
-    private List<MoveEnemy_Base> moveEnemy;
-    //private List<MoveObj_Base> moveObj;
+    private List<Enemy_Base> enemys;
 
     public void Init()
     {
@@ -27,8 +26,7 @@ public class MoveManager : MonoBehaviour
 
     public void NextTiming()
     {
-        //foreach (var obj in moveObj) obj.NextTiming();
-        foreach (var enemy in moveEnemy) enemy.NextTiming();
+        foreach (var enemy in enemys) enemy.PlayerCheck();
     }
 
     public int MoveCheck(Vector2Int curPos, Vector2Int plusPos, bool isEnemy = false)
@@ -92,10 +90,10 @@ public class MoveManager : MonoBehaviour
         }
     }
 
-    public void DestroyEnemy(Vector2Int curPos, MoveEnemy_Base enemy = null)
+    public void DestroyEnemy(Vector2Int curPos, Enemy_Base enemy)
     {
         curMoveMap[curPos.x, curPos.y] = 0;
-        if (enemy != null) moveEnemy.Remove(enemy);
+        enemys.Remove(enemy);
     }
 
     public void MapInit(int[,] _curGroundMap)
@@ -105,14 +103,14 @@ public class MoveManager : MonoBehaviour
         curMoveMap = new int[_curGroundMap.GetLength(0), _curGroundMap.GetLength(1)];
     }
 
-    public void MobInit(Enemy_Base[,] _map, Obj_Base[,] _obj, List<MoveEnemy_Base> _moveEnemy, int[,] _curObjMap)
+    public void MobInit(Enemy_Base[,] _map, Obj_Base[,] _obj, List<Enemy_Base> _enemy, int[,] _curObjMap)
     {
         curObjMap = _curObjMap;
         curMob = _map;
         curObj = _obj;
 
         //moveObj = _moveObj.ToList();
-        moveEnemy = _moveEnemy.ToList();
+        enemys = _enemy.ToList();
         cam.mapSize = new int[_curObjMap.GetLength(0), _curObjMap.GetLength(1)];
 
         for (int i = 0; i < _map.GetLength(0); i++)

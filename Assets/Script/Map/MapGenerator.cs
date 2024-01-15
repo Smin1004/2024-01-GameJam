@@ -61,7 +61,7 @@ public class MapGenerator : MonoBehaviour
                 }
             }
 
-        moveManager.MapInit(groundMap, curGroundData);
+        moveManager.MapInit(curGroundData);
         Spawn(curMap, totalData);
     }
 
@@ -69,7 +69,7 @@ public class MapGenerator : MonoBehaviour
     {
         Enemy_Base[,] map = new Enemy_Base[curMap.GetLength(0), curMap.GetLength(1)];
         Obj_Base[,] obj = new Obj_Base[curMap.GetLength(0), curMap.GetLength(1)];
-        List<MoveObj_Base> moveObj = new();
+        //List<MoveObj_Base> moveObj = new();
         List<MoveEnemy_Base> moveEnemy = new();
 
         int[,] curObjData = LoadCSV.Load(Map.objMap);
@@ -79,22 +79,22 @@ public class MapGenerator : MonoBehaviour
             {
                 if (curObjData[i, j] == 0) continue; // void
                 var temp = Instantiate(mapObj[curObjData[i, j] - 1], new Vector3(i, j),
-                Quaternion.identity, transform).GetComponent<Obj_Base>();
+                Quaternion.identity, transform);
                 temp.curPos = new(i, j);
                 obj[i, j] = temp;
 
-                if (temp.TryGetComponent<MoveObj_Base>(out var move))
-                {
-                    move.index = curObjData[i, j];
-                    moveObj.Add(move);
-                }
+                // if (temp.TryGetComponent<MoveObj_Base>(out var move))
+                // {
+                //     move.index = curObjData[i, j];
+                //     moveObj.Add(move);
+                // }
             }
 
         for (int i = 0; i < curEnemyData.GetLength(0); i++) for (int j = 0; j < curEnemyData.GetLength(1); j++)
             {
                 if (curEnemyData[i, j] <= 1) continue; // void
 
-                var temp = Instantiate(mapEnemy[curEnemyData[i, j] - 2], new Vector3(i, j), Quaternion.identity).GetComponent<Enemy_Base>();
+                var temp = Instantiate(mapEnemy[curEnemyData[i, j] - 2], new Vector3(i, j), Quaternion.identity);
                 temp.curPos = new(i, j);
                 if (temp.TryGetComponent<MoveEnemy_Base>(out var move))
                 {
@@ -117,8 +117,7 @@ public class MapGenerator : MonoBehaviour
                 map[i, j] = temp;
             }
 
-        Debug.Log($"{map == null} {obj == null} {moveObj == null} {moveEnemy == null} {curObjData == null}");
-        moveManager.MobInit(map, obj, moveObj, moveEnemy, curObjData);
+        moveManager.MobInit(map, obj, moveEnemy, curObjData);
     }
 
     private void Awake()

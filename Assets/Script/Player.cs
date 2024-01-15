@@ -21,10 +21,10 @@ public class Player : Mob_Base
     public int isKey;
     public bool isLobby;
     public bool isDead;
-    public bool cantMove;
 
     private Vector2Int plusPos;
     private float x, y;
+    private bool isMove;
 
     public void Init()
     {
@@ -35,7 +35,7 @@ public class Player : Mob_Base
     {
         base.Start();
         isDead = false;
-        cantMove = false;
+        isMove = false;
     }
 
     private void Update() {
@@ -62,7 +62,7 @@ public class Player : Mob_Base
 
     private void Move()
     {
-        if (isDead || cantMove) return;
+        if (isDead || isMove) return;
 
         if(Input.GetKeyDown(KeyCode.W)) CheckMove(Vector2.up);
         if(Input.GetKeyDown(KeyCode.A)) CheckMove(Vector2.left);
@@ -72,56 +72,29 @@ public class Player : Mob_Base
 
     private void CheckMove(Vector2 movePos)
     {
+        isMove = true;
         Managers.Sound.Play(moveSound);
 
-        int action = MoveManager.Instance.MoveCheck(curPos, Vector2Int.RoundToInt(movePos), true);
-        Debug.Log(action);
+        int action = MoveManager.Instance.MoveCheck(curPos, Vector2Int.RoundToInt(movePos));
 
         switch (action)
         {
-            case 0: curPos = curPos + plusPos; StartCoroutine(MovePlayer(movePos, 0.2f)); break;
-            case 1: break;
-            case 2: Attack(); break;
+            case 0: curPos = Vector2Int.RoundToInt(curPos + movePos); StartCoroutine(MovePlayer(movePos, 0.2f)); break;
+            case 1: isMove = false; break;
+            case 2: Attack(); isMove = false; break;
         }
-    }
-
-    public void ForcedMovement()
-    {
-        Vector3 movePos = new();
-
-        if (plusPos == Vector2Int.up) movePos = Vector3.forward;
-        if (plusPos == Vector2Int.down) movePos = Vector3.back;
-        if (plusPos == Vector2Int.right) movePos = Vector3.right;
-        if (plusPos == Vector2Int.left) movePos = Vector3.left;
-
-        int action = MoveManager.Instance.MoveCheck(curPos, plusPos, true);
-
-        switch (action)
-        {
-            case 0:
-                Managers.Sound.Play(moveSound);
-                curPos = curPos + plusPos;
-                StartCoroutine(MovePlayer(movePos, 0.2f)); break;
-            case 1: cantMove = false; break;
-            case 2: cantMove = false; break;
-        }
-    }
-
-    void RookPlayer(Vector3 pos)
-    {
-        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(pos), 1f);
     }
 
     void Attack()
     {
         Managers.Sound.Play(attackSound);
-        anim.SetTrigger("doAttack");
+        //anim.SetTrigger("doAttack");
     }
 
     protected override void DieDestroy()
     {
         Managers.Sound.Play(dieSound);
-        anim.SetTrigger("doDeath");
+        //anim.SetTrigger("doDeath");
         isDead = true;
     }
 
@@ -130,7 +103,7 @@ public class Player : Mob_Base
         float elapsedTime = 0;
         Vector3 origPos = transform.position;
         Vector3 targetPos = origPos + direction;
-        anim.SetTrigger("doDash");
+        //anim.
 
         while (elapsedTime < sec)
         {
@@ -140,5 +113,6 @@ public class Player : Mob_Base
         }
 
         transform.position = targetPos;
+        CheckMove(direction);
     }
 }

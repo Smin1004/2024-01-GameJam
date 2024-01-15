@@ -56,4 +56,9 @@ public class Define
         Obj,
         Enemy,
     }
+
+    public enum Weapon
+    {
+        one, two,
+    }
 }

@@ -16,10 +16,8 @@ public abstract class Enemy_Base : Mob_Base
         transform.LookAt(transform.position + Vector3.back);
     }
 
-    public virtual void BackStep(Vector2Int plusPos)
+    public virtual void Hit(Vector2Int plusPos)
     {
-        transform.LookAt(Player.Instance.transform);
-
         Vector3 movePos = new();
 
         if (plusPos == Vector2Int.up) movePos = Vector3.forward;
@@ -27,10 +25,9 @@ public abstract class Enemy_Base : Mob_Base
         if (plusPos == Vector2Int.right) movePos = Vector3.right;
         if (plusPos == Vector2Int.left) movePos = Vector3.left;
 
-        Hit(plusPos);
         if(cantMove) return;
 
-        int action = MoveManager.Instance.MoveCheck(curPos, plusPos, false);
+        int action = MoveManager.Instance.MoveCheck(curPos, plusPos, true);
 
         switch (action)
         {
@@ -39,8 +36,6 @@ public abstract class Enemy_Base : Mob_Base
             case 2: break;
         }
     }
-
-    protected virtual void Hit(Vector2Int pos){ }
 
     protected override void DieDestroy()
     {

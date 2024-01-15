@@ -15,11 +15,10 @@ public class MoveManager : MonoBehaviour
     private int[,] curGroundMap;
     private int[,] curObjMap;
     private int[,] curMoveMap;
-    private MoveGround_Base[,] curMap;
     private Enemy_Base[,] curMob;
     private Obj_Base[,] curObj;
     private List<MoveEnemy_Base> moveEnemy;
-    private List<MoveObj_Base> moveObj;
+    //private List<MoveObj_Base> moveObj;
 
     public void Init()
     {
@@ -28,67 +27,53 @@ public class MoveManager : MonoBehaviour
 
     public void NextTiming()
     {
-        foreach (var obj in moveObj) obj.NextTiming();
+        //foreach (var obj in moveObj) obj.NextTiming();
         foreach (var enemy in moveEnemy) enemy.NextTiming();
     }
 
-    /// <summary>
-    /// return 0 == move, 1 == can't move, 2 == attack
-    /// </summary>
-    /// <param name="curPos"></param>
-    /// <param name="plusPos"></param>
-    /// <returns></returns>
-    public int MoveCheck(Vector2Int curPos, Vector2Int plusPos, bool isPlayer = false, bool isNotMove = false)
+    public int MoveCheck(Vector2Int curPos, Vector2Int plusPos, bool isEnemy = false)
     {
         Vector2Int movePos = curPos + plusPos;
 
-        try { if (curGroundMap[movePos.x, movePos.y] == 0) { } /*map out check*/}
-        catch { return 1; }
-
-        if (curGroundMap[movePos.x, movePos.y] != 1)
-        {
-            if (curGroundMap[movePos.x, movePos.y] == 0) return 1;
-            else if (isPlayer && curGroundMap[movePos.x, movePos.y] == 99) curMap[movePos.x, movePos.y].Use();
-        }
+        if (curGroundMap[movePos.x, movePos.y] == 0) return 1;
 
         if (curMoveMap[movePos.x, movePos.y] != 0)
         {
-            if (isPlayer)
+            if (!isEnemy)
             {
-                Debug.Log(curMob[movePos.x, movePos.y] == null);
-                if (curMob[movePos.x, movePos.y].TryGetComponent<MoveEnemy_Base>(out var e))
-                {
-                    if (e.dirMove)
-                        if (e.cantMove) e.attackPos = curPos;
-                        else e.attackPos = movePos;
-                }
-                curMob[movePos.x, movePos.y].BackStep(plusPos);
+                curMob[movePos.x, movePos.y].Hit(plusPos);
                 return 2;
             }
-            else
-            {
-                if (curMoveMap[movePos.x, movePos.y] == 1) return 2;
-                else return 1;
-            }
+            else return 1;
         }
-        if (curObjMap[movePos.x, movePos.y] != 0)
+        if (curObjMap[movePos.x, movePos.y] != 0 && !isEnemy)
         {
-            if (isPlayer)
-                curObj[movePos.x, movePos.y].UseObj();
+            curObj[movePos.x, movePos.y].UseObj();
 
             if (!curObj[movePos.x, movePos.y].isCanMove) return 1;
         }
 
-        if (!isNotMove)
-        {
-            curMob[movePos.x, movePos.y] = curMob[curPos.x, curPos.y];
-            curMob[curPos.x, curPos.y] = null;
+        curMob[movePos.x, movePos.y] = curMob[curPos.x, curPos.y];
+        curMob[curPos.x, curPos.y] = null;
 
-            curMoveMap[movePos.x, movePos.y] = curMoveMap[curPos.x, curPos.y];
-            curMoveMap[curPos.x, curPos.y] = 0;
-        }
+        curMoveMap[movePos.x, movePos.y] = curMoveMap[curPos.x, curPos.y];
+        curMoveMap[curPos.x, curPos.y] = 0;
 
         return 0;
+    }
+
+    public int EnemyAttackCheck(Vector2Int curPos)
+    {
+        Vector2Int movePos = Vector2Int.zero;
+
+        for (int i = -1; i <= 1; i++) for (int j = -1; j <= 1; j++)
+            {
+                movePos = curPos + new Vector2Int(i, j);
+
+                if (curMoveMap[movePos.x, movePos.y] == 1) return 2;
+            }
+
+        return 1;
     }
 
     public void InOutIndex(Vector2Int curPos, Define.MapType map, int index = 0)
@@ -113,22 +98,20 @@ public class MoveManager : MonoBehaviour
         if (enemy != null) moveEnemy.Remove(enemy);
     }
 
-    public void MapInit(MoveGround_Base[,] _curMap, int[,] _curGroundMap)
+    public void MapInit(int[,] _curGroundMap)
     {
-        curMap = _curMap;
         curGroundMap = _curGroundMap;
 
         curMoveMap = new int[_curGroundMap.GetLength(0), _curGroundMap.GetLength(1)];
     }
 
-    public void MobInit(Enemy_Base[,] _map, Obj_Base[,] _obj, List<MoveObj_Base> _moveObj, List<MoveEnemy_Base> _moveEnemy, int[,] _curObjMap)
+    public void MobInit(Enemy_Base[,] _map, Obj_Base[,] _obj, List<MoveEnemy_Base> _moveEnemy, int[,] _curObjMap)
     {
         curObjMap = _curObjMap;
         curMob = _map;
         curObj = _obj;
-        Debug.Log($"in {curObjMap == null} {curMob == null} {curObj == null}");
 
-        moveObj = _moveObj.ToList();
+        //moveObj = _moveObj.ToList();
         moveEnemy = _moveEnemy.ToList();
         cam.mapSize = new int[_curObjMap.GetLength(0), _curObjMap.GetLength(1)];
 

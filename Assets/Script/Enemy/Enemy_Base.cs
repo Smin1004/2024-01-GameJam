@@ -8,8 +8,9 @@ public abstract class Enemy_Base : Mob_Base
 {
     [Header("Enemy_Base")]
     [SerializeField] protected bool cantDie;
+    [SerializeField] protected GameObject deadEffect;
     public bool cantMove;
-
+    
     protected override void Start()
     {
         base.Start();
@@ -40,6 +41,7 @@ public abstract class Enemy_Base : Mob_Base
     protected override void DieDestroy()
     {
         Managers.Resource.Destroy(gameObject);
+        Instantiate(deadEffect, transform.position, Quaternion.identity);
     }
 
     protected IEnumerator MoveEnemy(Vector3 direction, float sec)

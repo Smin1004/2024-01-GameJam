@@ -99,6 +99,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   curPos: {x: 0, y: 0}
   cantDie: 0
+  deadEffect: {fileID: 8039577323658278064, guid: c08bf3abcacd62049a520afe68dba5bf, type: 3}
   cantMove: 0
-  isoriginalEnemy: 1
-  originalEnemyAnim: {fileID: 0}

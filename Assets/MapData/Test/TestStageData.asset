@@ -21,4 +21,6 @@ MonoBehaviour:
   - {fileID: 7240578024768987239, guid: 327d4e589ef70424ba7e96a3e08f74f4, type: 3}
   mapEnemy:
   - {fileID: 6214279969661906447, guid: 9d793d4092b5ec34caf4c663115b4ccf, type: 3}
+  - {fileID: 6214279969661906447, guid: 576e6e98a961b6e478c9850e82da76eb, type: 3}
+  - {fileID: 6214279969661906447, guid: c2be5c0babf536f4cb655e6eaa64d159, type: 3}
   stageCount: 0

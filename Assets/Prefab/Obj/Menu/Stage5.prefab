@@ -150,6 +150,7 @@ MonoBehaviour:
   isCanMove: 1
   stage: 5
   _image: {fileID: 0}
+  _container: {fileID: 6457612616318765918, guid: 96c847f8af17ddb42a51f2d2f2f6cc72, type: 3}
 --- !u!1 &6247177814406166698
 GameObject:
   m_ObjectHideFlags: 0

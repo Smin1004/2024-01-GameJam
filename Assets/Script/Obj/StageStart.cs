@@ -6,6 +6,7 @@ public class StageStart : Obj_Base
 {
     public int stage;
     [SerializeField] Image _image;
+    [SerializeField] GameObject _container;
 
     public override void UseObj()
     {
@@ -23,6 +24,9 @@ public class StageStart : Obj_Base
         else
         {
             Debug.Log("_99_Exit");
+            
+            GameObject temp = Instantiate(_container, FindAnyObjectByType<CameraMove>().transform);
+            temp.transform.localPosition = new Vector3(0, 3,10);
         }
     }
     private void InStage()

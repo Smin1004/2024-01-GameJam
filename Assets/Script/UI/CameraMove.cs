@@ -11,7 +11,7 @@ public class CameraMove : MonoBehaviour
     private void Update()
     {
         transform.position = new Vector3
-            (Mathf.Clamp(Player.Instance.transform.position.x, clampX, mapSize.GetLength(0) - clampX),
-            Mathf.Clamp(Player.Instance.transform.position.z, clampY, mapSize.GetLength(1) - clampY), -10);
+            (Mathf.Clamp(MoveManager.Instance.curPlayer.transform.position.x, clampX, mapSize.GetLength(0) - clampX),
+            Mathf.Clamp(MoveManager.Instance.curPlayer.transform.position.z, clampY, mapSize.GetLength(1) - clampY), -10);
     }
 }

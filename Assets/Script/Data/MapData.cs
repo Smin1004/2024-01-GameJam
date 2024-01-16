@@ -10,4 +10,5 @@ public class MapData : ScriptableObject
     public TextAsset groundMap;
     public TextAsset enemyMap;
     public TextAsset objMap;
+    public int players;
 }

@@ -8,59 +8,33 @@ using UnityEngine.UI;
 
 public class Player : Mob_Base
 {
-    private static Player _instance = null;
-    public static Player Instance => _instance;
-
     [SerializeField] private AudioClip moveSound;
     [SerializeField] private AudioClip attackSound;
     [SerializeField] private AudioClip dieSound;
-    [SerializeField] private Text hpbar;
 
-    [SerializeField] private int HP;
-
-    public bool isSubWeapon;
-    public bool isDead;
+    public bool allStop;
 
     [HideInInspector] public Vector2Int redirecting;
     private bool isMove;
 
-    public void Init()
-    {
-        _instance = this;
-    }
-
     protected override void Start()
     {
         base.Start();
-        isDead = false;
-        isMove = false;
     }
 
     private void Update() {
         Move();
     }
 
-    public void Setting(int hp)
-    {
-        HP = hp;
-        hpbar.text = HP.ToString();
-    }
-
     public void Damage()
     {
-        HP -= 1;
-        hpbar.text = HP.ToString();
-
-        if (HP <= 0)
-        {
-            HP = 0;
-            DieDestroy();
-        }
+        return;
+        DieDestroy();
     }
 
     private void Move()
     {
-        if (isDead || isMove) return;
+        if (allStop || isMove) return;
 
         if (Input.GetKeyDown(KeyCode.W)) { isMove = true; CheckMove(Vector2.up); }
         if (Input.GetKeyDown(KeyCode.A)) { isMove = true; CheckMove(Vector2.left); }
@@ -98,7 +72,7 @@ public class Player : Mob_Base
     {
         Managers.Sound.Play(dieSound);
         //anim.SetTrigger("doDeath");
-        isDead = true;
+        allStop = true;
     }
 
     private IEnumerator MovePlayer(Vector3 direction, float sec)

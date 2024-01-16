@@ -8,6 +8,6 @@ public class ChangeDir : Obj_Base
 
     public override void UseObj()
     {
-        Player.Instance.redirecting = changePos;
+        MoveManager.Instance.curPlayer.redirecting = changePos;
     }
 }

@@ -6,8 +6,9 @@ using UnityEngine;
 public class MapGenerator : MonoBehaviour
 {
     [SerializeField] private List<StageData> stageList;
+    [SerializeField] private Player[] playerList;
     [SerializeField] private StageData curStage;
-    [SerializeField] private Player player;
+    //[SerializeField] private Player player;
     [SerializeField] private int stageIndex;
     [SerializeField] private int mapIndex;
     private MoveManager moveManager;
@@ -16,6 +17,8 @@ public class MapGenerator : MonoBehaviour
     private List<GameObject> mapTile = new();
     private List<Obj_Base> mapObj = new();
     private List<Enemy_Base> mapEnemy = new();
+    private int playerCount;
+
 
     private void Init()
     {
@@ -34,7 +37,8 @@ public class MapGenerator : MonoBehaviour
 
     private void ChoiceMap()
     {
-        player.Setting(battleMapData[mapIndex].life);
+        //player.Setting(battleMapData[mapIndex].life);
+        playerCount = battleMapData[mapIndex].players;
         CreateMap(battleMapData[mapIndex]);
     }
 
@@ -59,6 +63,7 @@ public class MapGenerator : MonoBehaviour
     {
         Enemy_Base[,] map = new Enemy_Base[curMap.GetLength(0), curMap.GetLength(1)];
         Obj_Base[,] obj = new Obj_Base[curMap.GetLength(0), curMap.GetLength(1)];
+        Player[] players = new Player[playerCount];
 
         int[,] curObjData = LoadCSV.Load(Map.objMap);
         int[,] curEnemyData = LoadCSV.Load(Map.enemyMap);
@@ -76,20 +81,29 @@ public class MapGenerator : MonoBehaviour
         for (int i = 0; i < curEnemyData.GetLength(0); i++) for (int j = 0; j < curEnemyData.GetLength(1); j++)
             {
                 if (curEnemyData[i, j] == 0) continue; // void
+                Mob_Base mob = null;
 
-                var temp = Instantiate(mapEnemy[curEnemyData[i, j] - 1], new Vector3(i, j), Quaternion.identity);
+                if (curEnemyData[i, j] <= playerCount) mob = playerList[curEnemyData[i, j] - 1];
+                else mob = mapEnemy[curEnemyData[i, j] - (playerCount + 1)];
+
+
+
+                var temp = Instantiate(mob, new Vector3(i, j), Quaternion.identity);
                 temp.curPos = new(i, j);
 
-                map[i, j] = temp;
-                enemy.Add(temp);
+                if (temp.TryGetComponent<Enemy_Base>(out var e))
+                {
+                    map[i, j] = e;
+                    enemy.Add(e);
+                }else players[curEnemyData[i, j] - 1] = temp.GetComponent<Player>();
             }
 
-        moveManager.MobInit(map, obj, enemy, curObjData);
+        moveManager.MobInit(map, obj, enemy, curObjData, players);
     }
 
     private void Awake()
     {
-        player.Init();
+        //player.Init();
         moveManager = GetComponent<MoveManager>();
         moveManager.Init();
         Init();

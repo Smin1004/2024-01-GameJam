@@ -10,6 +10,7 @@ public class MoveManager : MonoBehaviour
     public static MoveManager Instance => _instance;
 
     [SerializeField] private CameraMove cam;
+    public Player curPlayer;
     public GameObject clearWin;
 
     private int[,] curGroundMap;
@@ -37,7 +38,7 @@ public class MoveManager : MonoBehaviour
 
         if (curMoveMap[movePos.x, movePos.y] != 0)
         {
-            if (!isEnemy)
+            if (!isEnemy && curMoveMap[movePos.x, movePos.y] != 1)
             {
                 curMob[movePos.x, movePos.y].Hit(plusPos);
                 return 2;
@@ -103,13 +104,12 @@ public class MoveManager : MonoBehaviour
         curMoveMap = new int[_curGroundMap.GetLength(0), _curGroundMap.GetLength(1)];
     }
 
-    public void MobInit(Enemy_Base[,] _map, Obj_Base[,] _obj, List<Enemy_Base> _enemy, int[,] _curObjMap)
+    public void MobInit(Enemy_Base[,] _map, Obj_Base[,] _obj, List<Enemy_Base> _enemy, int[,] _curObjMap, Player[] players)
     {
         curObjMap = _curObjMap;
         curMob = _map;
         curObj = _obj;
 
-        //moveObj = _moveObj.ToList();
         enemys = _enemy.ToList();
         cam.mapSize = new int[_curObjMap.GetLength(0), _curObjMap.GetLength(1)];
 
@@ -119,13 +119,13 @@ public class MoveManager : MonoBehaviour
                 if (_map[i, j] != null) curMoveMap[i, j] = 2;
             }
 
-        for (int i = 0; i < _curObjMap.GetLength(0); i++) for (int j = 0; j < _curObjMap.GetLength(1); j++)
-                if (_curObjMap[i, j] == 1)
-                {
-                    curMoveMap[i, j] = 1;
-                    Player.Instance.transform.position = new Vector3(i, j);
-                    Player.Instance.curPos = new Vector2Int(i, j);
-                }
+        for (int i = 0; i < players.Length; i++)
+        {
+            curMoveMap[players[i].curPos.x, players[i].curPos.y] = 1;
+            
+            if(i == 0) curPlayer = players[i];
+            else players[i].allStop = true;
+        }
 
     }
 }

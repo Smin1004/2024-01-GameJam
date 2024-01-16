@@ -59,6 +59,8 @@ public class MoveManager : MonoBehaviour
             }
             else return 1;
         }
+        Debug.Log($"{movePos.x}, {movePos.y}");
+        Debug.Log($"{curObjMap.GetLength(0)}, {curObjMap.GetLength(1)}");
         if (curObjMap[movePos.x, movePos.y] != 0 && !isEnemy)
         {
             curObj[movePos.x, movePos.y].UseObj();

@@ -45,6 +45,7 @@ public class MapGenerator : MonoBehaviour
     private void CreateMap(MapData curMap)
     {
         int[,] curGroundData = LoadCSV.Load(curMap.groundMap);
+        Debug.Log($"{curGroundData.GetLength(0)}, {curGroundData.GetLength(1)}");
         int[,] totalData = new int[curGroundData.GetLength(0), curGroundData.GetLength(1)];
 
         for (int i = 0; i < curGroundData.GetLength(0); i++) for (int j = 0; j < curGroundData.GetLength(1); j++)

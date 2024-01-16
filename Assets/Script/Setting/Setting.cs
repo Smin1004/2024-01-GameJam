@@ -22,18 +22,22 @@ public class Setting : MonoBehaviour
     [SerializeField] CanvasGroup _keySetting;
 
     [Header("key")]
-    [SerializeField]Text _upKey;
-    [SerializeField]Text _downKey;
-    [SerializeField]Text _leftKey;
-    [SerializeField]Text _rightKey;
+    [SerializeField] Text _upKey;
+    [SerializeField] Text _downKey;
+    [SerializeField] Text _leftKey;
+    [SerializeField] Text _rightKey;
     [SerializeField] Text _weaponKey;
     [SerializeField] Text _characterKey;
+
+    [SerializeField] GameObject _keySettingImg;
+    private bool _isKeySetting = false;
 
     [Header("AudioSound")]
     [SerializeField] AudioSource _audioSource;
     [SerializeField] AudioClip _keyDownSound;
 
     private int _keyType = 1;
+    private int _key = -1;
     public bool _settingShow { get; private set; }
 
     // Start is called before the first frame update
@@ -67,16 +71,31 @@ public class Setting : MonoBehaviour
         _musicSlider.value = music;
         _sfxSlider.value = sfx;
     }
-    private void KeySetup() => _keyType = PlayerPrefs.GetInt("key", 1);
+    private void KeySetup()
+    { 
+        _keyType = PlayerPrefs.GetInt("key", 1);
+        _isKeySetting = false;
+        _keySettingImg.SetActive(false);
+    }
     public void OnOffSetting()
     {
-        _settingShow = !_settingShow;
-        if (_settingShow)
+        if (!_isKeySetting)
         {
-            SettingPopupSetUp();
-            _setting.alpha = 1.0f;
+            _settingShow = !_settingShow;
+            if (_settingShow)
+            {
+                SettingPopupSetUp();
+                _setting.alpha = 1.0f;
+            }
+            else _setting.alpha = 0.0f;
         }
-        else _setting.alpha = 0.0f;
+        else
+        {
+            _isKeySetting = false;
+            _keySettingImg.SetActive(false);
+
+            _key = -1;
+        }
     }
     public void KeyTypeChange(int i)
     {
@@ -90,30 +109,30 @@ public class Setting : MonoBehaviour
     {
         switch (_keyType)
         {
-            case 1: 
+            case 1:
                 _btn1.Select();
                 _keySetting.interactable = false;
-                _nowKeyType.transform.localPosition = new Vector2(-290,95);
-                    break;
-            case 2: _btn2.Select(); _keySetting.interactable = false;
-                _nowKeyType.transform.localPosition = new Vector2(0,95);
+                _nowKeyType.transform.localPosition = new Vector2(-290, 95);
                 break;
-            case 3: _btn3.Select(); _keySetting.interactable = true; 
-                _nowKeyType.transform.localPosition = new Vector2(290,95);break;
+            case 2: _btn2.Select(); _keySetting.interactable = false;
+                _nowKeyType.transform.localPosition = new Vector2(0, 95);
+                break;
+            case 3: _btn3.Select(); _keySetting.interactable = true;
+                _nowKeyType.transform.localPosition = new Vector2(290, 95); break;
         }
     }
-    private int key = -1;
     void OnGUI()
     {
         Event e = Event.current;
         if (e.isKey)
         {
-            if (key != -1)
+            if(e.keyCode != KeyCode.Escape)
+            if (_key != -1)
             {
                 //text.text = e.keyCode.ToString();
                 //Debug.Log(e.keyCode.ToString());
                 //PlayerPrefs.SetInt("key", key);
-                switch (key)
+                switch (_key)
                 {
                     case 1:
                         PlayerPrefs.SetInt("up", (int)e.keyCode);
@@ -143,14 +162,23 @@ public class Setting : MonoBehaviour
                     case 6:
                         PlayerPrefs.SetInt("character", (int)e.keyCode);
                         //InputManager.instance. = e.keyCode;
-                        _weaponKey.text = e.keyCode.ToString();
+                        InputManager.instance.playerKey = e.keyCode;
+                        _characterKey.text = e.keyCode.ToString();
                         break;
                 }
-                key = -1;
+                _isKeySetting = false;
+                _keySettingImg.SetActive(false);
+
+                _key = -1;
             }
         }
     }
-    public void KeyChange(int k) => key = k;
+    public void KeyChange(int k)
+    {
+        _key = k;
+        _isKeySetting = true;
+        _keySettingImg.SetActive(true);
+    }
 
     public void SettingReset()
     {
@@ -182,6 +210,7 @@ public class Setting : MonoBehaviour
                 InputManager.instance.leftKey = KeyCode.A;
                 InputManager.instance.rightKey = KeyCode.D;
                 InputManager.instance.weaponKey = KeyCode.F;
+                InputManager.instance.playerKey = KeyCode.Space;
                 break;
             case 2:
                 InputManager.instance.upKey = KeyCode.UpArrow;
@@ -189,6 +218,7 @@ public class Setting : MonoBehaviour
                 InputManager.instance.leftKey = KeyCode.LeftArrow;
                 InputManager.instance.rightKey = KeyCode.RightArrow;
                 InputManager.instance.weaponKey = KeyCode.Return;
+                InputManager.instance.playerKey = KeyCode.Space;
                 break;
             case 3:
                 InputManager.instance.upKey = (KeyCode)PlayerPrefs.GetInt("up", (int)KeyCode.W);
@@ -196,7 +226,7 @@ public class Setting : MonoBehaviour
                 InputManager.instance.leftKey = (KeyCode)PlayerPrefs.GetInt("left", (int)KeyCode.A);
                 InputManager.instance.rightKey = (KeyCode)PlayerPrefs.GetInt("right", (int)KeyCode.D);
                 InputManager.instance.weaponKey = (KeyCode)PlayerPrefs.GetInt("weapon", (int)KeyCode.E);
-                InputManager.instance.playerKey = KeyCode.Q;
+                InputManager.instance.playerKey = (KeyCode)PlayerPrefs.GetInt("character", (int)KeyCode.Space);
                 break;
         }
 
@@ -205,5 +235,6 @@ public class Setting : MonoBehaviour
         _leftKey.text = InputManager.instance.leftKey.ToString().WordCount();
         _rightKey.text = InputManager.instance.rightKey.ToString().WordCount();
         _weaponKey.text = InputManager.instance.weaponKey.ToString().WordCount();
+        _characterKey.text = InputManager.instance.playerKey.ToString().WordCount();
     }
 }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LoadCSV : MonoBehaviour
+public class LoadCSV
 {
     public static int[,] Load(TextAsset text)
     {

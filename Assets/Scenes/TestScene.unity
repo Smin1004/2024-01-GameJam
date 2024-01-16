@@ -301,7 +301,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cam: {fileID: 154767623}
   curPlayer: {fileID: 0}
+  subPlayer: {fileID: 0}
   clearWin: {fileID: 0}
+  mainScene: 0
 --- !u!1 &1461475880
 GameObject:
   m_ObjectHideFlags: 0

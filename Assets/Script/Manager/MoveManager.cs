@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Events;
 using System.Linq;
 public class MoveManager : MonoBehaviour
@@ -56,6 +57,12 @@ public class MoveManager : MonoBehaviour
         if (!mainScene)
         {
             Debug.Log("end");
+            int clearStage =  PlayerPrefs.GetInt("clearStage", 1);
+            if (clearStage < RoundData.Instance.stageIndex)
+            {
+                PlayerPrefs.SetInt("clearStage", RoundData.Instance.stageIndex);
+            }
+            SceneManager.LoadScene(1);
         }
     }
 
@@ -161,10 +168,27 @@ public class MoveManager : MonoBehaviour
             else { players[i].allStop = true; subPlayer = players[i]; }
         }
 
-        InputManager.instance.Up += () => curPlayer.Move(Vector2.up);
-        InputManager.instance.Down += () => curPlayer.Move(Vector2.down);
-        InputManager.instance.Left += () => curPlayer.Move(Vector2.left);
-        InputManager.instance.Right += () => curPlayer.Move(Vector2.right);
-        InputManager.instance.PlayerSwap += () => ChangePlayer();
+        InputManager.instance.Up += MoveUp;
+        InputManager.instance.Down += MoveDown;
+        InputManager.instance.Left += MoveLeft;
+        InputManager.instance.Right += MoveRight;
+        InputManager.instance.PlayerSwap += ChangePlayer;
+
+        curPlayer.destoryAction += () =>
+        {
+            InputManager.instance.Up -= MoveUp;
+            InputManager.instance.Down -= MoveDown;
+            InputManager.instance.Left -= MoveLeft;
+            InputManager.instance.Right -= MoveRight;
+            InputManager.instance.PlayerSwap -= ChangePlayer;
+        };
     }
+    private void MoveUp() =>
+        curPlayer.Move(Vector2.up);
+    private void MoveDown() =>
+        curPlayer.Move(Vector2.down);
+    private void MoveLeft() =>
+        curPlayer.Move(Vector2.left);
+    private void MoveRight() =>
+        curPlayer.Move(Vector2.right);
 }

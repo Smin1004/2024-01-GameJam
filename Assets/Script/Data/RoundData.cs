@@ -21,6 +21,7 @@ public class RoundData : ScriptableObject
 
     public void InitData()
     {
-        _instance = this;
+        if(_instance == null)
+            _instance = this;
     }
 }

@@ -231,7 +231,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 222399614}
-  - component: {fileID: 222399613}
   - component: {fileID: 222399612}
   - component: {fileID: 222399615}
   m_Layer: 0
@@ -260,18 +259,6 @@ MonoBehaviour:
   curStage: {fileID: 11400000, guid: 05f75fa57a504ab40880d7abc0cc423e, type: 2}
   stageIndex: 0
   mapIndex: 0
---- !u!114 &222399613
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 222399611}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 37d53dd0764b19041b2ca7766b8761cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &222399614
 Transform:
   m_ObjectHideFlags: 0
@@ -301,7 +288,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cam: {fileID: 154767623}
   curPlayer: {fileID: 0}
+  subPlayer: {fileID: 0}
   clearWin: {fileID: 0}
+  mainScene: 0
 --- !u!1 &1461475880
 GameObject:
   m_ObjectHideFlags: 0

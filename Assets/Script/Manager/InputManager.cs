@@ -34,10 +34,19 @@ public class InputManager : MonoBehaviour
                     _instance = temp.AddComponent<InputManager>();
                     DontDestroyOnLoad(temp);
                 }
-                else DontDestroyOnLoad(_instance.gameObject);
+                //else DontDestroyOnLoad(_instance.gameObject);
             }
             return _instance;
         }
+    }
+    private void Awake()
+    {
+        if (_instance == null) 
+        {
+            _instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else Destroy(gameObject);
     }
     private void Update()
     {

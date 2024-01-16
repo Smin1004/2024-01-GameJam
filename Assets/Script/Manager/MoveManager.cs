@@ -2,17 +2,22 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Events;
 using System.Linq;
+using UnityEngine.InputSystem;
 public class MoveManager : MonoBehaviour
 {
     private static MoveManager _instance = null;
     public static MoveManager Instance => _instance;
 
     [SerializeField] private CameraMove cam;
+    [SerializeField] private FadeManager fade;
     public Player curPlayer;
     public Player subPlayer;
     public GameObject clearWin;
+
+    [SerializeField] private Setting _setting;
 
     private int[,] curGroundMap;
     private int[,] curObjMap;
@@ -22,15 +27,21 @@ public class MoveManager : MonoBehaviour
     private Player players;
     private List<Enemy_Base> enemys;
 
+    public bool GameEnd {  get; private set; }
+
+    [SerializeField] private bool mainScene;
+
     public void Init()
     {
         _instance = this;
+        GameEnd = false;// mainScene = true;
     }
 
     private void ChangePlayer()
     {
         Debug.Log("Cheage");
         if (curPlayer.StopCheck()) return;
+        if (_setting.SettingShow) return;
 
         if (subPlayer != null)
         {
@@ -51,7 +62,18 @@ public class MoveManager : MonoBehaviour
 
     private void Clear()
     {
-        Debug.Log("end");
+        if (!mainScene)
+        {
+            Debug.Log("end");
+            int clearStage =  PlayerPrefs.GetInt("clearStage", -1);
+            if (clearStage < RoundData.Instance.stageIndex)
+            {
+                PlayerPrefs.SetInt("clearStage", RoundData.Instance.stageIndex);
+            }
+            GameEnd = true;
+
+            GameExit();
+        }
     }
 
     public int MoveCheck(Vector2Int curPos, Vector2Int plusPos, bool isEnemy = false)
@@ -156,10 +178,56 @@ public class MoveManager : MonoBehaviour
             else { players[i].allStop = true; subPlayer = players[i]; }
         }
 
-        InputManager.instance.Up += () => curPlayer.Move(Vector2.up);
-        InputManager.instance.Down += () => curPlayer.Move(Vector2.down);
-        InputManager.instance.Left += () => curPlayer.Move(Vector2.left);
-        InputManager.instance.Right += () => curPlayer.Move(Vector2.right);
-        InputManager.instance.PlayerSwap += () => ChangePlayer();
+        InputManager.instance.Up += MoveUp;
+        InputManager.instance.Down += MoveDown;
+        InputManager.instance.Left += MoveLeft;
+        InputManager.instance.Right += MoveRight;
+        InputManager.instance.PlayerSwap += ChangePlayer;
+
+        curPlayer.destoryAction += ExitEvent;
+    }
+    private void MoveUp()
+    {
+        if(!_setting.SettingShow)
+            curPlayer.Move(Vector2.up);
+    }
+    private void MoveDown()
+    {
+        if (!_setting.SettingShow)
+            curPlayer.Move(Vector2.down);
+    }
+    private void MoveLeft()
+    {
+        if (!_setting.SettingShow)
+            curPlayer.Move(Vector2.left);
+    }
+    private void MoveRight()
+    {
+        if (!_setting.SettingShow)
+            curPlayer.Move(Vector2.right);
+    }
+
+    private void ExitEvent()
+    {
+        InputManager.instance.Up -= MoveUp;
+        InputManager.instance.Down -= MoveDown;
+        InputManager.instance.Left -= MoveLeft;
+        InputManager.instance.Right -= MoveRight;
+        InputManager.instance.PlayerSwap -= ChangePlayer;
+
+        curPlayer.destoryAction -= ExitEvent;
+        curPlayer.allStop = true;
+    }
+    public void GameExit()
+    {
+        ExitEvent();
+        GameEnd = true;
+        fade.FadeOut(1.0f);
+
+        Invoke("GoMainScene", 1);
+    }
+    private void GoMainScene()
+    {
+        SceneManager.LoadScene(1);
     }
 }

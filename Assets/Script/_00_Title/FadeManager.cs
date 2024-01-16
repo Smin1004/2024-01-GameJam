@@ -13,10 +13,16 @@ public class FadeManager : MonoBehaviour
     private State _state;
     private float _alpha,_targetalpha;
     private float _speed;
+    public bool awakeHide;
     private void Awake()
     {
         _state = State.None;
-        _alpha = 1.0f;
+        if (awakeHide)
+        {
+            AlphaChane(0.0f);
+            _alpha = 0.0f;
+        }
+        else _alpha = 1.0f;
     }
     public void FadeIn(float r, float g, float b, float speed)
     {

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
@@ -58,9 +59,17 @@ public abstract class Enemy_Base : Mob_Base
 
     protected override void DieDestroy()
     {
-        Managers.Resource.Destroy(gameObject);
+        Rigidbody2D rigid = gameObject.AddComponent<Rigidbody2D>();
+        rigid.velocity = new Vector3(Random.Range(-0.5f, 0.5f),1,0) * 7;
+        rigid.AddTorque(15,ForceMode2D.Impulse);
+        StartCoroutine(DeadMove());
     }
+    private IEnumerator DeadMove()
+    {   
+        yield return new WaitForSeconds(10);
+        Managers.Resource.Destroy(gameObject);
 
+    }
     protected IEnumerator MoveEnemy(Vector3 direction, float sec)
     {
         float elapsedTime = 0;

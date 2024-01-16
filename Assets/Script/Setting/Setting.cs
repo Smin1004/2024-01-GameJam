@@ -38,7 +38,7 @@ public class Setting : MonoBehaviour
 
     private int _keyType = 1;
     private int _key = -1;
-    public bool _settingShow { get; private set; }
+    public bool SettingShow { get; private set; }
 
     // Start is called before the first frame update
     void Start()
@@ -81,8 +81,8 @@ public class Setting : MonoBehaviour
     {
         if (!_isKeySetting)
         {
-            _settingShow = !_settingShow;
-            if (_settingShow)
+            SettingShow = !SettingShow;
+            if (SettingShow)
             {
                 SettingPopupSetUp();
                 _setting.alpha = 1.0f;
@@ -112,13 +112,13 @@ public class Setting : MonoBehaviour
             case 1:
                 _btn1.Select();
                 _keySetting.interactable = false;
-                _nowKeyType.transform.localPosition = new Vector2(-290, 95);
+                _nowKeyType.transform.localPosition = new Vector2(-280, 95);
                 break;
             case 2: _btn2.Select(); _keySetting.interactable = false;
                 _nowKeyType.transform.localPosition = new Vector2(0, 95);
                 break;
             case 3: _btn3.Select(); _keySetting.interactable = true;
-                _nowKeyType.transform.localPosition = new Vector2(290, 95); break;
+                _nowKeyType.transform.localPosition = new Vector2(280, 95); break;
         }
     }
     void OnGUI()
@@ -199,6 +199,10 @@ public class Setting : MonoBehaviour
         SettingPopupSetUp();
         InputSetup();
         SliderSetup();
+    }
+    public void DataReset()
+    {
+        PlayerPrefs.DeleteKey("clearStage");
     }
     private void InputSetup()
     {

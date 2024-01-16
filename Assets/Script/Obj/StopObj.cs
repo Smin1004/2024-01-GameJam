@@ -6,6 +6,6 @@ public class StopObj : Obj_Base
 {
    public override void UseObj()
     {
-        MoveManager.Instance.curPlayer.redirecting = new Vector2Int(0,0);
+        MoveManager.Instance.curPlayer.redirecting = Vector2Int.zero;
     } 
 }

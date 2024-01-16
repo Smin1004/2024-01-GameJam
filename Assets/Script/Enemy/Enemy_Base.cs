@@ -9,7 +9,8 @@ public abstract class Enemy_Base : Mob_Base
     [Header("Enemy_Base")]
     [SerializeField] protected bool cantDie;
     private bool isAttack;
-    public bool cantMove;
+    public bool isNotCheck;
+    public bool isHend;
 
     protected override void Start()
     {

@@ -34,10 +34,39 @@ public class Player : Mob_Base
         base.Start();
         isDead = false;
         isMove = false;
+
+        InputManager.instance.UpKey += () =>
+        {
+            if (isDead || isMove) return;
+
+            isMove = true;
+            CheckMove(Vector2.up);
+        };
+        InputManager.instance.DownKey += () =>
+        {
+            if (isDead || isMove) return;
+
+            isMove = true;
+            CheckMove(Vector2.down);
+        };
+        InputManager.instance.LeftKey += () =>
+        {
+            if (isDead || isMove) return;
+
+            isMove = true;
+            CheckMove(Vector2.left);
+        };
+        InputManager.instance.RightKey += () =>
+        {
+            if (isDead || isMove) return;
+
+            isMove = true;
+            CheckMove(Vector2.right);
+        };
     }
 
     private void Update() {
-        Move();
+        //Move();
     }
 
     public void Setting(int hp)

@@ -8,10 +8,10 @@ public class StageStart : Obj_Base
         MoveManager.Instance.curPlayer.allStop = true;
         FadeManager fade = FindAnyObjectByType<FadeManager>();
         fade?.Skip();
-        fade?.FadeOut(0.5f);
+        fade?.FadeOut(1.0f);
         RoundData.Instance.Reset(stage-1);
 
-        Invoke("InStage", 2.0f);
+        Invoke("InStage", 1.0f);
     }
     private void InStage()
     {

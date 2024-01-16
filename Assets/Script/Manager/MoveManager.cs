@@ -5,12 +5,14 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Events;
 using System.Linq;
+using UnityEngine.InputSystem;
 public class MoveManager : MonoBehaviour
 {
     private static MoveManager _instance = null;
     public static MoveManager Instance => _instance;
 
     [SerializeField] private CameraMove cam;
+    [SerializeField] private FadeManager fade;
     public Player curPlayer;
     public Player subPlayer;
     public GameObject clearWin;
@@ -23,11 +25,14 @@ public class MoveManager : MonoBehaviour
     private Player players;
     private List<Enemy_Base> enemys;
 
+    public bool GameEnd {  get; private set; }
+
     [SerializeField] private bool mainScene;
 
     public void Init()
     {
         _instance = this;
+        GameEnd = false;// mainScene = true;
     }
 
     private void ChangePlayer()
@@ -62,6 +67,7 @@ public class MoveManager : MonoBehaviour
             {
                 PlayerPrefs.SetInt("clearStage", RoundData.Instance.stageIndex);
             }
+            GameEnd = true;
 
             GameExit();
         }
@@ -200,6 +206,13 @@ public class MoveManager : MonoBehaviour
     public void GameExit()
     {
         ExitEvent();
+        GameEnd = true;
+        fade.FadeOut(1.0f);
+
+        Invoke("GoMainScene", 1);
+    }
+    private void GoMainScene()
+    {
         SceneManager.LoadScene(1);
     }
 }

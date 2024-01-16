@@ -6,17 +6,19 @@ using UnityEngine.Events;
 
 public class InputManager : MonoBehaviour
 {
-    public event Action UpKey;
-    public event Action DownKey;
-    public event Action LeftKey;
-    public event Action RightKey;
-    public event Action SwapKey;
+    public event Action Up;
+    public event Action Down;
+    public event Action Left;
+    public event Action Right;
+    public event Action WeaponSwap;
+    public event Action PlayerSwap;
 
     public KeyCode upKey;
     public KeyCode downKey;
     public KeyCode leftKey;
     public KeyCode rightKey;
     public KeyCode weaponKey;
+    public KeyCode playerKey;
 
     private static InputManager _instance;
     public static InputManager instance
@@ -39,10 +41,11 @@ public class InputManager : MonoBehaviour
     }
     private void Update()
     {
-        if (Input.GetKeyDown(upKey)) UpKey?.Invoke();
-        if (Input.GetKeyDown(downKey)) DownKey?.Invoke();
-        if (Input.GetKeyDown(leftKey)) LeftKey?.Invoke();
-        if (Input.GetKeyDown(rightKey)) RightKey?.Invoke();
-        if (Input.GetKeyDown(weaponKey)) SwapKey?.Invoke();
+        if (Input.GetKeyDown(upKey)) Up?.Invoke();
+        if (Input.GetKeyDown(downKey)) Down?.Invoke();
+        if (Input.GetKeyDown(leftKey)) Left?.Invoke();
+        if (Input.GetKeyDown(rightKey)) Right?.Invoke();
+        if (Input.GetKeyDown(weaponKey)) WeaponSwap?.Invoke();
+        if (Input.GetKeyDown(playerKey)) PlayerSwap?.Invoke();
     }
 }

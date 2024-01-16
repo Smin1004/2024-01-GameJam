@@ -188,7 +188,8 @@ public class Setting : MonoBehaviour
                 InputManager.instance.downKey = (KeyCode)PlayerPrefs.GetInt("down", (int)KeyCode.S);
                 InputManager.instance.leftKey = (KeyCode)PlayerPrefs.GetInt("left", (int)KeyCode.A);
                 InputManager.instance.rightKey = (KeyCode)PlayerPrefs.GetInt("right", (int)KeyCode.D);
-                InputManager.instance.weaponKey = (KeyCode)PlayerPrefs.GetInt("weapon", (int)KeyCode.F);
+                InputManager.instance.weaponKey = (KeyCode)PlayerPrefs.GetInt("weapon", (int)KeyCode.E);
+                InputManager.instance.playerKey = KeyCode.Q;
                 break;
         }
 

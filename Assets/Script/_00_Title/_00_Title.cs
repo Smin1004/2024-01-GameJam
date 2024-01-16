@@ -34,18 +34,18 @@ public class _00_Title : MonoBehaviour
     {
         if (!_SceneLoaded)
         {
-            //ÅØ½ºÆ® ¾ËÆÄ°ª ¼³Á¤
+            //ï¿½Ø½ï¿½Æ® ï¿½ï¿½ï¿½Ä°ï¿½ ï¿½ï¿½ï¿½ï¿½
             if (_textAlpha <= 0.0f) _targetAlpha = 1.25f;
             if (_textAlpha >= 1.0f) _targetAlpha = -0.01f;
             _textAlpha = Mathf.Lerp(_textAlpha, _targetAlpha, Time.deltaTime * 3.5f);
 
-            //¾ËÆÄ°ª ¹Ù²Ù±â
+            //ï¿½ï¿½ï¿½Ä°ï¿½ ï¿½Ù²Ù±ï¿½
             Color textColor = _titleText.color;
             textColor.a = 1 - _textAlpha;
             _titleText.color = textColor;
             //Debug.Log($"{_textAlpha}:{_targetAlpha}");
 
-            //ÀÌ¹ÌÁö Å©Å° ¼³Á¤
+            //ï¿½Ì¹ï¿½ï¿½ï¿½ Å©Å° ï¿½ï¿½ï¿½ï¿½
             _imgSize = Time.time % 1.5f;
             if (_imgSize < 1.0f) _imgSize = 1;
             if (_imgSize > 1.25f) _imgSize = (1.5f - _imgSize) + 1;
@@ -53,23 +53,23 @@ public class _00_Title : MonoBehaviour
             //ReadOnlyCollectionBase
             //Debug.Log(_imgSize);
 
-            //ESCÅ° °Ë»ç
+            //ESCÅ° ï¿½Ë»ï¿½
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 _fade.Skip();
                 _setting.OnOffSetting();
             }
-            //Å°°¡ ´­·È´ÂÁö °Ë»ç
+            //Å°ï¿½ï¿½ ï¿½ï¿½ï¿½È´ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½
             else NextScene();
         }
         else
         {
-            //Ç×»ó º¸ÀÌ°Ô
+            //ï¿½×»ï¿½ ï¿½ï¿½ï¿½Ì°ï¿½
             Color textColor = _titleText.color;
             textColor.a = 1.0f;
             _titleText.color = textColor;
 
-            //¾È ¿òÁ÷ÀÌ°Ô
+            //ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì°ï¿½
             _titleIMG.rectTransform.localScale = new Vector2(1.0f, 1.0f);
         }
     }
@@ -86,6 +86,7 @@ public class _00_Title : MonoBehaviour
     IEnumerator LoadScene()
     {
         yield return new WaitForSeconds(2.0f);
-        SceneManager.LoadScene("_01_ChapterIndex");
+        //SceneManager.LoadScene("_01_ChapterIndex");
+        SceneManager.LoadScene("TestScene");
     }
 }

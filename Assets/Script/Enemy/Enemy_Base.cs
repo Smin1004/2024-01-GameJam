@@ -34,6 +34,7 @@ public abstract class Enemy_Base : Mob_Base
 
     public virtual void Hit(Vector2Int plusPos)
     {
+        Debug.Log("die");
         dieAction?.Invoke();
         // Vector3 movePos = new();
 

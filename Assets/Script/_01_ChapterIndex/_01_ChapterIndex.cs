@@ -9,7 +9,7 @@ public class _01_ChapterIndex : MonoBehaviour
     [SerializeField] Setting _setting;
     private void Start()
     {
-        _fade.FadeIn(0.5f);
+        _fade.FadeIn(1.0f);
         //Invoke("SceneStart", 1);
     }
     void SceneStart()

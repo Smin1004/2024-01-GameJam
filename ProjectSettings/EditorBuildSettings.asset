@@ -12,6 +12,12 @@ EditorBuildSettings:
     path: Assets/Scenes/_01_ChapterIndex.unity
     guid: 2cc27500169745d4cafcc3a79b8c14cb
   - enabled: 1
+    path: Assets/Scenes/_02_InGame.unity
+    guid: 0cd246f3bc27b3c45833562d0287f0d8
+  - enabled: 1
+    path: Assets/Scenes/_99_Exit.unity
+    guid: 943fb8ce6ff90aa408c8ed7c92474f31
+  - enabled: 1
     path: Assets/Scenes/SampleScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1

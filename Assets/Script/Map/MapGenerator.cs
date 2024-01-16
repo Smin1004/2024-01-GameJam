@@ -34,7 +34,7 @@ public class MapGenerator : MonoBehaviour
         }
 
         //Debug.Log($"{RoundData.Instance.stageIndex}");
-        Debug.Log($"{PlayerPrefs.GetInt("clearStage",1)}");
+        //Debug.Log($"{PlayerPrefs.GetInt("clearStage",1)}");
 
         battleMapData = curStage.battleMapData.ToList();
         mapTile = curStage.mapTile.ToList();

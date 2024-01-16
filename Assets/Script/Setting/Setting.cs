@@ -27,6 +27,7 @@ public class Setting : MonoBehaviour
     [SerializeField]Text _leftKey;
     [SerializeField]Text _rightKey;
     [SerializeField] Text _weaponKey;
+    [SerializeField] Text _characterKey;
 
     [Header("AudioSound")]
     [SerializeField] AudioSource _audioSource;
@@ -40,6 +41,7 @@ public class Setting : MonoBehaviour
     {
         KeySetup();
         SliderSetup();
+        InputSetup();
 
         //KeyCode up = (KeyCode)PlayerPrefs.GetInt("up", (int)KeyCode.W);
         //KeyCode down = (KeyCode)PlayerPrefs.GetInt("down", (int)KeyCode.S);
@@ -47,7 +49,6 @@ public class Setting : MonoBehaviour
         //KeyCode right = (KeyCode)PlayerPrefs.GetInt("right", (int)KeyCode.D);
         //KeyCode weapon = (KeyCode)PlayerPrefs.GetInt("weapon", (int)KeyCode.F);
 
-        InputSetup();
 
 
         _musicSlider.onValueChanged.AddListener(x =>
@@ -139,6 +140,11 @@ public class Setting : MonoBehaviour
                         InputManager.instance.weaponKey = e.keyCode;
                         _weaponKey.text = e.keyCode.ToString();
                         break;
+                    case 6:
+                        PlayerPrefs.SetInt("character", (int)e.keyCode);
+                        //InputManager.instance. = e.keyCode;
+                        _weaponKey.text = e.keyCode.ToString();
+                        break;
                 }
                 key = -1;
             }
@@ -156,12 +162,13 @@ public class Setting : MonoBehaviour
         PlayerPrefs.DeleteKey("left");
         PlayerPrefs.DeleteKey("right");
         PlayerPrefs.DeleteKey("weapon");
+        PlayerPrefs.DeleteKey("character");
 
         PlayerPrefs.DeleteKey("key");
 
         //SettingPopupSetUp();
-        OnOffSetting();
-
+        KeySetup();
+        SettingPopupSetUp();
         InputSetup();
         SliderSetup();
     }

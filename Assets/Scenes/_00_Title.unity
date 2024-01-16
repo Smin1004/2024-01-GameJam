@@ -367,6 +367,7 @@ MonoBehaviour:
   _titleIMG: {fileID: 1447193441}
   _fade: {fileID: 2059581743}
   _setting: {fileID: 883972815}
+  roundData: {fileID: 11400000, guid: b34cfb565c80c8646bb648c14bcaa058, type: 2}
 --- !u!4 &818312483
 Transform:
   m_ObjectHideFlags: 0

@@ -11,6 +11,8 @@ public class _00_Title : MonoBehaviour
     [SerializeField] FadeManager _fade;
     [SerializeField] Setting _setting;
 
+    public RoundData roundData;
+
     private float _textAlpha = 0.0f;
     private float _targetAlpha = 1.0f;
 
@@ -28,6 +30,8 @@ public class _00_Title : MonoBehaviour
     private void Start()
     {
         _fade.FadeIn(0.5f);
+        roundData.InitData();
+        //RoundData.InitData();
     }
 
     private void Update()
@@ -87,6 +91,6 @@ public class _00_Title : MonoBehaviour
     {
         yield return new WaitForSeconds(2.0f);
         //SceneManager.LoadScene("_01_ChapterIndex");
-        SceneManager.LoadScene("What");
+        SceneManager.LoadScene("_01_ChapterIndex");
     }
 }

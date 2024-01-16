@@ -112,13 +112,13 @@ public class Setting : MonoBehaviour
             case 1:
                 _btn1.Select();
                 _keySetting.interactable = false;
-                _nowKeyType.transform.localPosition = new Vector2(-290, 95);
+                _nowKeyType.transform.localPosition = new Vector2(-280, 95);
                 break;
             case 2: _btn2.Select(); _keySetting.interactable = false;
                 _nowKeyType.transform.localPosition = new Vector2(0, 95);
                 break;
             case 3: _btn3.Select(); _keySetting.interactable = true;
-                _nowKeyType.transform.localPosition = new Vector2(290, 95); break;
+                _nowKeyType.transform.localPosition = new Vector2(280, 95); break;
         }
     }
     void OnGUI()

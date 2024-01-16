@@ -22,6 +22,8 @@ public class MoveManager : MonoBehaviour
     private Player players;
     private List<Enemy_Base> enemys;
 
+    [SerializeField] private bool mainScene;
+
     public void Init()
     {
         _instance = this;
@@ -51,7 +53,10 @@ public class MoveManager : MonoBehaviour
 
     private void Clear()
     {
-        Debug.Log("end");
+        if (!mainScene)
+        {
+            Debug.Log("end");
+        }
     }
 
     public int MoveCheck(Vector2Int curPos, Vector2Int plusPos, bool isEnemy = false)

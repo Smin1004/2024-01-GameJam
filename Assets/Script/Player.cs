@@ -11,7 +11,8 @@ public class Player : Mob_Base
     [SerializeField] private AudioClip moveSound;
     [SerializeField] private AudioClip attackSound;
     [SerializeField] private AudioClip dieSound;
-
+    
+    public bool isHend;
     public bool allStop;
 
     [HideInInspector] public Vector2Int redirecting;
@@ -43,8 +44,6 @@ public class Player : Mob_Base
 
     private void CheckMove(Vector2 movePos)
     {
-        Managers.Sound.Play(moveSound);
-
         redirecting = Vector2Int.RoundToInt(movePos);
         int action = MoveManager.Instance.MoveCheck(curPos, Vector2Int.RoundToInt(movePos));
 

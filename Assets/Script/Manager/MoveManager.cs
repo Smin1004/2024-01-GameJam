@@ -54,8 +54,10 @@ public class MoveManager : MonoBehaviour
         {
             if (!isEnemy && curMoveMap[movePos.x, movePos.y] != 1)
             {
-                curMob[movePos.x, movePos.y].Hit(plusPos);
-                return 2;
+                if(!curMob[movePos.x, movePos.y].isNotCheck && curPlayer.isHend == curMob[movePos.x, movePos.y].isHend){
+                    curMob[movePos.x, movePos.y].Hit(plusPos);
+                    return 2;
+                }else return 1;
             }
             else return 1;
         }

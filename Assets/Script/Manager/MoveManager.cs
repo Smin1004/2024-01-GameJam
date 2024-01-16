@@ -62,7 +62,6 @@ public class MoveManager : MonoBehaviour
             {
                 PlayerPrefs.SetInt("clearStage", RoundData.Instance.stageIndex);
             }
-            SceneManager.LoadScene(1);
 
             GameExit();
         }
@@ -201,5 +200,6 @@ public class MoveManager : MonoBehaviour
     public void GameExit()
     {
         ExitEvent();
+        SceneManager.LoadScene(1);
     }
 }

@@ -15,6 +15,6 @@ public class StageStart : Obj_Base
     }
     private void InStage()
     {
-        SceneManager.LoadScene("TestScene");
+        SceneManager.LoadScene("_02_InGame");
     }
 }

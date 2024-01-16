@@ -32,12 +32,15 @@ public class MoveManager : MonoBehaviour
         Debug.Log("Cheage");
         if(curPlayer.StopCheck()) return;
 
-        Player temp = subPlayer;
-        subPlayer = curPlayer;
-        curPlayer = temp;
+        if (subPlayer != null)
+        {
+            Player temp = subPlayer;
+            subPlayer = curPlayer;
+            curPlayer = temp;
 
-        curPlayer.allStop = false;
-        subPlayer.allStop = true;
+            curPlayer.allStop = false;
+            subPlayer.allStop = true;
+        }
     }
 
     public void NextTiming()
@@ -61,8 +64,8 @@ public class MoveManager : MonoBehaviour
             }
             else return 1;
         }
-        Debug.Log($"{movePos.x}, {movePos.y}");
-        Debug.Log($"{curObjMap.GetLength(0)}, {curObjMap.GetLength(1)}");
+        //Debug.Log($"{movePos.x}, {movePos.y}");
+        //Debug.Log($"{curObjMap.GetLength(0)}, {curObjMap.GetLength(1)}");
         if (curObjMap[movePos.x, movePos.y] != 0 && !isEnemy)
         {
             curObj[movePos.x, movePos.y].UseObj();

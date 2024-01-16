@@ -237,6 +237,7 @@ MonoBehaviour:
   leftKey: 0
   rightKey: 0
   weaponKey: 0
+  playerKey: 0
 --- !u!4 &237325456
 Transform:
   m_ObjectHideFlags: 0

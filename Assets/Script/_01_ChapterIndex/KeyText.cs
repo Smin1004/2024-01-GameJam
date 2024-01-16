@@ -6,6 +6,6 @@ public class KeyText : MonoBehaviour
 {
     void Start()
     {
-        InputManager.instance.UpKey += () => Debug.Log("Up");
+        InputManager.instance.Up += () => Debug.Log("Up");
     }
 }

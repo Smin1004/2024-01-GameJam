@@ -20,26 +20,25 @@ public class Player : Mob_Base
     protected override void Start()
     {
         base.Start();
-    }
-
-    private void Update() {
-        Move();
+        
     }
 
     public void Damage()
     {
-        return;
-        DieDestroy();
+        //DieDestroy();
     }
 
-    private void Move()
+    public bool StopCheck(){
+        if (allStop || isMove) return true;
+        else return false;
+    }
+
+    public void Move(Vector2 nextPos)
     {
         if (allStop || isMove) return;
 
-        if (Input.GetKeyDown(KeyCode.W)) { isMove = true; CheckMove(Vector2.up); }
-        if (Input.GetKeyDown(KeyCode.A)) { isMove = true; CheckMove(Vector2.left); }
-        if (Input.GetKeyDown(KeyCode.S)) { isMove = true; CheckMove(Vector2.down); }
-        if (Input.GetKeyDown(KeyCode.D)) { isMove = true; CheckMove(Vector2.right); }
+        isMove = true;
+        CheckMove(nextPos);
     }
 
     private void CheckMove(Vector2 movePos)

@@ -11,6 +11,7 @@ public class MoveManager : MonoBehaviour
 
     [SerializeField] private CameraMove cam;
     public Player curPlayer;
+    public Player subPlayer;
     public GameObject clearWin;
 
     private int[,] curGroundMap;
@@ -18,11 +19,25 @@ public class MoveManager : MonoBehaviour
     private int[,] curMoveMap;
     private Enemy_Base[,] curMob;
     private Obj_Base[,] curObj;
+    private Player players;
     private List<Enemy_Base> enemys;
 
     public void Init()
     {
         _instance = this;
+    }
+
+    private void ChangePlayer()
+    {
+        Debug.Log("Cheage");
+        if(curPlayer.StopCheck()) return;
+
+        Player temp = subPlayer;
+        subPlayer = curPlayer;
+        curPlayer = temp;
+
+        curPlayer.allStop = false;
+        subPlayer.allStop = true;
     }
 
     public void NextTiming()
@@ -35,7 +50,6 @@ public class MoveManager : MonoBehaviour
         Vector2Int movePos = curPos + plusPos;
 
         if (curGroundMap[movePos.x, movePos.y] == 0) return 1;
-
         if (curMoveMap[movePos.x, movePos.y] != 0)
         {
             if (!isEnemy && curMoveMap[movePos.x, movePos.y] != 1)
@@ -122,10 +136,15 @@ public class MoveManager : MonoBehaviour
         for (int i = 0; i < players.Length; i++)
         {
             curMoveMap[players[i].curPos.x, players[i].curPos.y] = 1;
-            
-            if(i == 0) curPlayer = players[i];
-            else players[i].allStop = true;
+
+            if (i == 0) curPlayer = players[i];
+            else { players[i].allStop = true; subPlayer = players[i];}
         }
 
+        InputManager.instance.Up += () => curPlayer.Move(Vector2.up);
+        InputManager.instance.Down += () => curPlayer.Move(Vector2.down);
+        InputManager.instance.Left += () => curPlayer.Move(Vector2.left);
+        InputManager.instance.Right += () => curPlayer.Move(Vector2.right);
+        InputManager.instance.PlayerSwap += () => ChangePlayer();
     }
 }

@@ -57,12 +57,14 @@ public class MoveManager : MonoBehaviour
         if (!mainScene)
         {
             Debug.Log("end");
-            int clearStage =  PlayerPrefs.GetInt("clearStage", 1);
+            int clearStage =  PlayerPrefs.GetInt("clearStage", 0);
             if (clearStage < RoundData.Instance.stageIndex)
             {
                 PlayerPrefs.SetInt("clearStage", RoundData.Instance.stageIndex);
             }
             SceneManager.LoadScene(1);
+
+            GameExit();
         }
     }
 
@@ -174,14 +176,7 @@ public class MoveManager : MonoBehaviour
         InputManager.instance.Right += MoveRight;
         InputManager.instance.PlayerSwap += ChangePlayer;
 
-        curPlayer.destoryAction += () =>
-        {
-            InputManager.instance.Up -= MoveUp;
-            InputManager.instance.Down -= MoveDown;
-            InputManager.instance.Left -= MoveLeft;
-            InputManager.instance.Right -= MoveRight;
-            InputManager.instance.PlayerSwap -= ChangePlayer;
-        };
+        curPlayer.destoryAction += ExitEvent;
     }
     private void MoveUp() =>
         curPlayer.Move(Vector2.up);
@@ -191,4 +186,20 @@ public class MoveManager : MonoBehaviour
         curPlayer.Move(Vector2.left);
     private void MoveRight() =>
         curPlayer.Move(Vector2.right);
+
+    private void ExitEvent()
+    {
+        InputManager.instance.Up -= MoveUp;
+        InputManager.instance.Down -= MoveDown;
+        InputManager.instance.Left -= MoveLeft;
+        InputManager.instance.Right -= MoveRight;
+        InputManager.instance.PlayerSwap -= ChangePlayer;
+
+        curPlayer.destoryAction -= ExitEvent;
+        curPlayer.allStop = true;
+    }
+    public void GameExit()
+    {
+        ExitEvent();
+    }
 }

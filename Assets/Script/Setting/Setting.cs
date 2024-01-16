@@ -200,6 +200,10 @@ public class Setting : MonoBehaviour
         InputSetup();
         SliderSetup();
     }
+    public void DataReset()
+    {
+        PlayerPrefs.DeleteKey("clearStage");
+    }
     private void InputSetup()
     {
         switch (_keyType)

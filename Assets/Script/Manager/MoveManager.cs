@@ -17,6 +17,8 @@ public class MoveManager : MonoBehaviour
     public Player subPlayer;
     public GameObject clearWin;
 
+    [SerializeField] private Setting _setting;
+
     private int[,] curGroundMap;
     private int[,] curObjMap;
     private int[,] curMoveMap;
@@ -39,6 +41,7 @@ public class MoveManager : MonoBehaviour
     {
         Debug.Log("Cheage");
         if (curPlayer.StopCheck()) return;
+        if (_setting.SettingShow) return;
 
         if (subPlayer != null)
         {
@@ -62,7 +65,7 @@ public class MoveManager : MonoBehaviour
         if (!mainScene)
         {
             Debug.Log("end");
-            int clearStage =  PlayerPrefs.GetInt("clearStage", 0);
+            int clearStage =  PlayerPrefs.GetInt("clearStage", -1);
             if (clearStage < RoundData.Instance.stageIndex)
             {
                 PlayerPrefs.SetInt("clearStage", RoundData.Instance.stageIndex);
@@ -183,14 +186,26 @@ public class MoveManager : MonoBehaviour
 
         curPlayer.destoryAction += ExitEvent;
     }
-    private void MoveUp() =>
-        curPlayer.Move(Vector2.up);
-    private void MoveDown() =>
-        curPlayer.Move(Vector2.down);
-    private void MoveLeft() =>
-        curPlayer.Move(Vector2.left);
-    private void MoveRight() =>
-        curPlayer.Move(Vector2.right);
+    private void MoveUp()
+    {
+        if(!_setting.SettingShow)
+            curPlayer.Move(Vector2.up);
+    }
+    private void MoveDown()
+    {
+        if (!_setting.SettingShow)
+            curPlayer.Move(Vector2.down);
+    }
+    private void MoveLeft()
+    {
+        if (!_setting.SettingShow)
+            curPlayer.Move(Vector2.left);
+    }
+    private void MoveRight()
+    {
+        if (!_setting.SettingShow)
+            curPlayer.Move(Vector2.right);
+    }
 
     private void ExitEvent()
     {

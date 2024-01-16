@@ -38,7 +38,7 @@ public class Setting : MonoBehaviour
 
     private int _keyType = 1;
     private int _key = -1;
-    public bool _settingShow { get; private set; }
+    public bool SettingShow { get; private set; }
 
     // Start is called before the first frame update
     void Start()
@@ -81,8 +81,8 @@ public class Setting : MonoBehaviour
     {
         if (!_isKeySetting)
         {
-            _settingShow = !_settingShow;
-            if (_settingShow)
+            SettingShow = !SettingShow;
+            if (SettingShow)
             {
                 SettingPopupSetUp();
                 _setting.alpha = 1.0f;

@@ -373,6 +373,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _fade: {fileID: 1685485133}
+  awakeHide: 0
 --- !u!4 &622987967
 Transform:
   m_ObjectHideFlags: 0
@@ -419,9 +420,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 1895367526}
+  fade: {fileID: 622987966}
   curPlayer: {fileID: 0}
   subPlayer: {fileID: 0}
   clearWin: {fileID: 0}
+  _setting: {fileID: 775484931}
   mainScene: 1
 --- !u!114 &686086945
 MonoBehaviour:

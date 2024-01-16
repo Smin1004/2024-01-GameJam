@@ -79,7 +79,7 @@ public class _00_Title : MonoBehaviour
     }
     private void NextScene()
     {
-        if (Input.anyKeyDown && !_SceneLoaded && !_setting._settingShow) 
+        if (Input.anyKeyDown && !_SceneLoaded && !_setting.SettingShow) 
         {
             _fade.Skip();
             _fade.FadeOut(0.5f);

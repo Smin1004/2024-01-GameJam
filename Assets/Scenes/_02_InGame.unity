@@ -471,6 +471,7 @@ MonoBehaviour:
   curPlayer: {fileID: 0}
   subPlayer: {fileID: 0}
   clearWin: {fileID: 0}
+  _setting: {fileID: 1789495856}
   mainScene: 0
 --- !u!1 &588453031
 GameObject:

@@ -9,22 +9,21 @@ public class StageStart : Obj_Base
 
     public override void UseObj()
     {
-        int clearStage = PlayerPrefs.GetInt("clearStage", 0);
-        if((clearStage + 1) > stage)
+        int clearStage = PlayerPrefs.GetInt("clearStage", -1);
+        if((clearStage + 1)/*0*/ >= stage-1)
         {
+            MoveManager.Instance.curPlayer.allStop = true;
+            FadeManager fade = FindAnyObjectByType<FadeManager>();
+            fade?.Skip();
+            fade?.FadeOut(1.0f);
+            RoundData.Instance.Reset(stage - 1);
 
+            Invoke("InStage", 1.0f);
         }
         else
         {
-
+            Debug.Log("_99_Exit");
         }
-        MoveManager.Instance.curPlayer.allStop = true;
-        FadeManager fade = FindAnyObjectByType<FadeManager>();
-        fade?.Skip();
-        fade?.FadeOut(1.0f);
-        RoundData.Instance.Reset(stage-1);
-
-        Invoke("InStage", 1.0f);
     }
     private void InStage()
     {

@@ -30,7 +30,7 @@ public class MoveManager : MonoBehaviour
     private void ChangePlayer()
     {
         Debug.Log("Cheage");
-        if(curPlayer.StopCheck()) return;
+        if (curPlayer.StopCheck()) return;
 
         Player temp = subPlayer;
         subPlayer = curPlayer;
@@ -42,7 +42,13 @@ public class MoveManager : MonoBehaviour
 
     public void NextTiming()
     {
-        foreach (var enemy in enemys) enemy.PlayerCheck();
+        if (enemys.Count != 0) foreach (var enemy in enemys) enemy.PlayerCheck();
+        else Clear();
+    }
+
+    private void Clear()
+    {
+        Debug.Log("end");
     }
 
     public int MoveCheck(Vector2Int curPos, Vector2Int plusPos, bool isEnemy = false)
@@ -54,10 +60,12 @@ public class MoveManager : MonoBehaviour
         {
             if (!isEnemy && curMoveMap[movePos.x, movePos.y] != 1)
             {
-                if(!curMob[movePos.x, movePos.y].isNotCheck && curPlayer.isHend == curMob[movePos.x, movePos.y].isHend){
+                if (!curMob[movePos.x, movePos.y].isNotCheck && curPlayer.isHend == curMob[movePos.x, movePos.y].isHend)
+                {
                     curMob[movePos.x, movePos.y].Hit(plusPos);
                     return 2;
-                }else return 1;
+                }
+                else return 1;
             }
             else return 1;
         }
@@ -142,7 +150,7 @@ public class MoveManager : MonoBehaviour
             curMoveMap[players[i].curPos.x, players[i].curPos.y] = 1;
 
             if (i == 0) curPlayer = players[i];
-            else { players[i].allStop = true; subPlayer = players[i];}
+            else { players[i].allStop = true; subPlayer = players[i]; }
         }
 
         InputManager.instance.Up += () => curPlayer.Move(Vector2.up);

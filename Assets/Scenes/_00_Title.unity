@@ -940,7 +940,15 @@ PrefabInstance:
       value: Setting, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 4093249536436905154, guid: 3d7fb9dfbf06afe46a59a13ff14fe097, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4093249536436905154, guid: 3d7fb9dfbf06afe46a59a13ff14fe097, type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4093249536436905154, guid: 3d7fb9dfbf06afe46a59a13ff14fe097, type: 3}
+      propertyPath: m_AnchorMin.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4093249536889370241, guid: 3d7fb9dfbf06afe46a59a13ff14fe097, type: 3}
@@ -1041,6 +1049,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4093249537135264581, guid: 3d7fb9dfbf06afe46a59a13ff14fe097, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4093249537287536791, guid: 3d7fb9dfbf06afe46a59a13ff14fe097, type: 3}
+      propertyPath: m_AnchorMax.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4093249537287536791, guid: 3d7fb9dfbf06afe46a59a13ff14fe097, type: 3}

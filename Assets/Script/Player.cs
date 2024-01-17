@@ -11,25 +11,30 @@ public class Player : Mob_Base
     [SerializeField] private AudioClip moveSound;
     [SerializeField] private AudioClip attackSound;
     [SerializeField] private AudioClip dieSound;
-    
-    public bool isHend;
+
+    public bool isWeapon;
     public bool allStop;
 
     [HideInInspector] public Vector2Int redirecting;
     private bool isMove;
-
-    protected override void Start()
-    {
-        base.Start();
-        
-    }
 
     public void Damage()
     {
         //DieDestroy();
     }
 
-    public bool StopCheck(){
+    public IEnumerator Event()
+    {
+        allStop = true;
+        anim.Play("Player_Event");
+        yield return new WaitForSeconds(0.5f);
+        if(isWeapon) anim.Play("Player_Weapon_Idle");
+        else anim.Play("Player_Idle");
+        allStop = false;
+    }
+
+    public bool StopCheck()
+    {
         if (allStop || isMove) return true;
         else return false;
     }
@@ -50,35 +55,36 @@ public class Player : Mob_Base
         switch (action)
         {
             case 0: curPos = Vector2Int.RoundToInt(curPos + movePos); StartCoroutine(MovePlayer(movePos, 0.2f)); break;
-            case 1: TrunEnd(); break;
-            case 2: Attack(); TrunEnd(); break;
+            case 1: TrunEnd(movePos); break;
+            case 2: Attack(); TrunEnd(movePos); break;
         }
     }
 
-    void TrunEnd(){
+    void TrunEnd(Vector2 direction)
+    {
         isMove = false;
+        Anim(direction);
         MoveManager.Instance.NextTiming();
     }
 
     void Attack()
     {
         Managers.Sound.Play(attackSound);
-        //anim.SetTrigger("doAttack");
     }
 
     protected override void DieDestroy()
     {
         Managers.Sound.Play(dieSound);
-        //anim.SetTrigger("doDeath");
         allStop = true;
     }
 
-    private IEnumerator MovePlayer(Vector3 direction, float sec)
+    private IEnumerator MovePlayer(Vector2 direction, float sec)
     {
         float elapsedTime = 0;
-        Vector3 origPos = transform.position;
-        Vector3 targetPos = origPos + direction;
-        //anim.
+        Vector2 origPos = transform.position;
+        Vector2 targetPos = origPos + direction;
+
+        Anim(direction);
 
         while (elapsedTime < sec)
         {
@@ -89,5 +95,56 @@ public class Player : Mob_Base
 
         transform.position = targetPos;
         CheckMove(redirecting);
+        Anim(direction);
+    }
+
+    private void Anim(Vector2 dir)
+    {
+        if (isMove)
+        {
+            if (dir == Vector2.up)
+            {
+                if (!isWeapon) anim.Play("Player_MoveUp");
+                else anim.Play("Player_Weapon_MoveUp");
+            }
+            else if (dir == Vector2.left)
+            {
+                if (!isWeapon) anim.Play("Player_MoveLeft");
+                else anim.Play("Player_Weapon_MoveLeft");
+            }
+            else if (dir == Vector2.down)
+            {
+                if (!isWeapon) anim.Play("Player_MoveDown");
+                else anim.Play("Player_Weapon_MoveDown");
+            }
+            else if (dir == Vector2.right)
+            {
+                if (!isWeapon) anim.Play("Player_MoveRight");
+                else anim.Play("Player_Weapon_MoveRight");
+            }
+        }
+        else
+        {
+            if (dir == Vector2.up)
+            {
+                if (!isWeapon) anim.Play("Player_Idle_UP");
+                else anim.Play("Player_Weapon_Idle_UP");
+            }
+            else if (dir == Vector2.left)
+            {
+                if (!isWeapon) anim.Play("Player_Idle_Left");
+                else anim.Play("Player_Weapon_Idle_Left");
+            }
+            else if (dir == Vector2.down)
+            {
+                if (!isWeapon) anim.Play("Player_Idle");
+                else anim.Play("Player_Weapon_Idle");
+            }
+            else if (dir == Vector2.right)
+            {
+                if (!isWeapon) anim.Play("Player_Idle_Right");
+                else anim.Play("Player_Weapon_Idle_Right");
+            }
+        }
     }
 }

@@ -11,7 +11,7 @@ public abstract class Enemy_Base : Mob_Base
     [SerializeField] protected bool cantDie;
     private bool isAttack;
     public bool isNotCheck;
-    public bool isHend;
+    public bool isWeapon;
 
     protected override void Start()
     {

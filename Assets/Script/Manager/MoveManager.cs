@@ -27,7 +27,7 @@ public class MoveManager : MonoBehaviour
     private Player players;
     private List<Enemy_Base> enemys;
 
-    public bool GameEnd {  get; private set; }
+    public bool GameEnd { get; private set; }
 
     [SerializeField] private bool mainScene;
 
@@ -39,19 +39,26 @@ public class MoveManager : MonoBehaviour
 
     private void ChangePlayer()
     {
-        Debug.Log("Cheage");
-        if (curPlayer.StopCheck()) return;
-        if (_setting.SettingShow) return;
+        if (curPlayer.StopCheck() || _setting.SettingShow || subPlayer == null) return;
 
-        if (subPlayer != null)
+        if (subPlayer != null)  
         {
             Player temp = subPlayer;
             subPlayer = curPlayer;
             curPlayer = temp;
 
-            curPlayer.allStop = false;
+            StartCoroutine(curPlayer.Event());
+
             subPlayer.allStop = true;
         }
+    }
+
+    private void ChangeWeapon()
+    {
+        if (curPlayer.StopCheck() || _setting.SettingShow) return;
+
+        curPlayer.isWeapon = !curPlayer.isWeapon;
+        StartCoroutine(curPlayer.Event());
     }
 
     public void NextTiming()
@@ -65,7 +72,7 @@ public class MoveManager : MonoBehaviour
         if (!mainScene)
         {
             Debug.Log("end");
-            int clearStage =  PlayerPrefs.GetInt("clearStage", -1);
+            int clearStage = PlayerPrefs.GetInt("clearStage", -1);
             if (clearStage < RoundData.Instance.stageIndex)
             {
                 PlayerPrefs.SetInt("clearStage", RoundData.Instance.stageIndex);
@@ -85,7 +92,7 @@ public class MoveManager : MonoBehaviour
         {
             if (!isEnemy && curMoveMap[movePos.x, movePos.y] != 1)
             {
-                if (!curMob[movePos.x, movePos.y].isNotCheck && curPlayer.isHend == curMob[movePos.x, movePos.y].isHend)
+                if (curMob[movePos.x, movePos.y].isNotCheck || curPlayer.isWeapon == curMob[movePos.x, movePos.y].isWeapon)
                 {
                     curMob[movePos.x, movePos.y].Hit(plusPos);
                     return 2;
@@ -182,13 +189,14 @@ public class MoveManager : MonoBehaviour
         InputManager.instance.Down += MoveDown;
         InputManager.instance.Left += MoveLeft;
         InputManager.instance.Right += MoveRight;
+        InputManager.instance.WeaponSwap += ChangeWeapon;
         InputManager.instance.PlayerSwap += ChangePlayer;
 
         curPlayer.destoryAction += ExitEvent;
     }
     private void MoveUp()
     {
-        if(!_setting.SettingShow)
+        if (!_setting.SettingShow)
             curPlayer.Move(Vector2.up);
     }
     private void MoveDown()
@@ -213,6 +221,7 @@ public class MoveManager : MonoBehaviour
         InputManager.instance.Down -= MoveDown;
         InputManager.instance.Left -= MoveLeft;
         InputManager.instance.Right -= MoveRight;
+        InputManager.instance.PlayerSwap -= ChangeWeapon;
         InputManager.instance.PlayerSwap -= ChangePlayer;
 
         curPlayer.destoryAction -= ExitEvent;

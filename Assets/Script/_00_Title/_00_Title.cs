@@ -32,6 +32,8 @@ public class _00_Title : MonoBehaviour
         _fade.FadeIn(0.5f);
         roundData.InitData();
         //RoundData.InitData();
+
+        AudioManager.Instance.PlayMusic("TitleSong");
     }
 
     private void Update()
@@ -81,6 +83,7 @@ public class _00_Title : MonoBehaviour
     {
         if (Input.anyKeyDown && !_SceneLoaded && !_setting.SettingShow) 
         {
+            AudioManager.Instance.PusecMisic();
             _fade.Skip();
             _fade.FadeOut(0.5f);
             _SceneLoaded = true;

@@ -101,7 +101,7 @@ MonoBehaviour:
   curPos: {x: 0, y: 0}
   cantDie: 0
   isNotCheck: 0
-  isHend: 1
+  isWeapon: 1
 --- !u!95 &3449310993540245779
 Animator:
   serializedVersion: 5

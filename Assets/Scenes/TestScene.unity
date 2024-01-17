@@ -287,9 +287,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 154767623}
+  fade: {fileID: 0}
   curPlayer: {fileID: 0}
   subPlayer: {fileID: 0}
   clearWin: {fileID: 0}
+  _setting: {fileID: 0}
   mainScene: 0
 --- !u!1 &1461475880
 GameObject:
@@ -433,19 +435,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6382232187419673429, guid: 217bb843a95e3184a85552d82a28db7c, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6382232187419673432, guid: 217bb843a95e3184a85552d82a28db7c, type: 3}
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6382232187419673432, guid: 217bb843a95e3184a85552d82a28db7c, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6382232187419673432, guid: 217bb843a95e3184a85552d82a28db7c, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6382232187419673432, guid: 217bb843a95e3184a85552d82a28db7c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 3.03
       objectReference: {fileID: 0}
     - target: {fileID: 6382232187419673432, guid: 217bb843a95e3184a85552d82a28db7c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 2.12
       objectReference: {fileID: 0}
     - target: {fileID: 6382232187419673432, guid: 217bb843a95e3184a85552d82a28db7c, type: 3}
       propertyPath: m_LocalPosition.z

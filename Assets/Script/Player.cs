@@ -51,12 +51,14 @@ public class Player : Mob_Base
     {
         redirecting = Vector2Int.RoundToInt(movePos);
         int action = MoveManager.Instance.MoveCheck(curPos, Vector2Int.RoundToInt(movePos));
+        Debug.Log(action);
 
         switch (action)
         {
             case 0: curPos = Vector2Int.RoundToInt(curPos + movePos); StartCoroutine(MovePlayer(movePos, 0.2f)); break;
             case 1: TrunEnd(movePos); break;
-            case 2: Attack(); TrunEnd(movePos); break;
+            case 2: curPos = Vector2Int.RoundToInt(curPos + movePos); StartCoroutine(MovePlayer(movePos, 0.2f, false));
+            Attack(); TrunEnd(movePos); break;
         }
     }
 
@@ -78,7 +80,7 @@ public class Player : Mob_Base
         allStop = true;
     }
 
-    private IEnumerator MovePlayer(Vector2 direction, float sec)
+    private IEnumerator MovePlayer(Vector2 direction, float sec, bool isCheck = true)
     {
         float elapsedTime = 0;
         Vector2 origPos = transform.position;
@@ -94,7 +96,7 @@ public class Player : Mob_Base
         }
 
         transform.position = targetPos;
-        CheckMove(redirecting);
+        if(isCheck) CheckMove(redirecting);
         Anim(direction);
     }
 

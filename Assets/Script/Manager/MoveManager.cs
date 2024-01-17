@@ -87,6 +87,7 @@ public class MoveManager : MonoBehaviour
     {
         Vector2Int movePos = curPos + plusPos;
 
+        if(plusPos == Vector2Int.zero) return 1;
         if (curGroundMap[movePos.x, movePos.y] == 0) return 1;
         if (curMoveMap[movePos.x, movePos.y] != 0)
         {
@@ -101,8 +102,6 @@ public class MoveManager : MonoBehaviour
             }
             else return 1;
         }
-        //Debug.Log($"{movePos.x}, {movePos.y}");
-        //Debug.Log($"{curObjMap.GetLength(0)}, {curObjMap.GetLength(1)}");
         if (curObjMap[movePos.x, movePos.y] != 0 && !isEnemy)
         {
             curObj[movePos.x, movePos.y].UseObj();

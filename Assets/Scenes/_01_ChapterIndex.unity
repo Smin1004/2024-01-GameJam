@@ -473,7 +473,6 @@ MonoBehaviour:
   stageList: []
   playerList:
   - {fileID: 6382232187419673434, guid: 217bb843a95e3184a85552d82a28db7c, type: 3}
-  - {fileID: 1738549711014224512, guid: 79fd35a960bba2b4dac3f2090d1c9502, type: 3}
   curStage: {fileID: 11400000, guid: 2c8789abd0d09ce4c8e665e065210c79, type: 2}
   stageIndex: 0
   mapIndex: 0

@@ -19,7 +19,8 @@ public class StageStart : Obj_Base
             fade?.FadeOut(1.0f);
             RoundData.Instance.Reset(stage - 1);
             AudioManager.Instance.PusecMisic();
-            Invoke("InStage", 1.0f);
+            AudioManager.Instance.PlaySFX("GameStart");
+            Invoke("InStage", 1.5f);
         }
         else
         {

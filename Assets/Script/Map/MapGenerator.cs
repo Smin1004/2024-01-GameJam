@@ -8,6 +8,7 @@ public class MapGenerator : MonoBehaviour
     [SerializeField] private List<StageData> stageList;
     [SerializeField] private Player[] playerList;
     [SerializeField] private StageData curStage;
+    [SerializeField] private text text;
     //[SerializeField] private Player player;
     [SerializeField] private int stageIndex;
     [SerializeField] private int mapIndex;
@@ -46,6 +47,8 @@ public class MapGenerator : MonoBehaviour
     {
         //player.Setting(battleMapData[mapIndex].life);
         playerCount = battleMapData[mapIndex].players;
+        text.maxCount = battleMapData[mapIndex].life;
+        text.Init();
         CreateMap(battleMapData[mapIndex]);
     }
 
@@ -103,7 +106,10 @@ public class MapGenerator : MonoBehaviour
                 {
                     map[i, j] = e;
                     enemy.Add(e);
-                }else players[curEnemyData[i, j] - 1] = temp.GetComponent<Player>();
+                }else {
+                    players[curEnemyData[i, j] - 1] = temp.GetComponent<Player>();
+                    temp.GetComponent<Player>().text = text;
+                }
             }
 
         moveManager.MobInit(map, obj, enemy, curObjData, players);

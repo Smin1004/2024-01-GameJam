@@ -11,7 +11,8 @@ public class Player : Mob_Base
     [SerializeField] private AudioClip moveSound;
     [SerializeField] private AudioClip attackSound;
     [SerializeField] private AudioClip dieSound;
-
+    public text text;
+  
     public bool isWeapon;
     public bool allStop;
 
@@ -20,12 +21,28 @@ public class Player : Mob_Base
 
     public void Damage()
     {
-        //DieDestroy();
+        DieDestroy();
+    }
+
+    protected override void DieDestroy()
+    {
+        Managers.Sound.Play(dieSound);
+        allStop = true;
+        Rigidbody2D rigid = gameObject.AddComponent<Rigidbody2D>();
+        rigid.velocity = new Vector3(Random.Range(-0.5f, 0.5f),1,0) * 7;
+        rigid.AddTorque(15,ForceMode2D.Impulse);
+        StartCoroutine(DeadMove());
+    }
+    private IEnumerator DeadMove()
+    {   
+        yield return new WaitForSeconds(2);
+        MoveManager.Instance.isEnd = true;
     }
 
     public IEnumerator Event()
     {
         allStop = true;
+        if(text.m() == 0) DieDestroy();
         anim.Play("Player_Event");
         yield return new WaitForSeconds(0.5f);
         if(isWeapon) anim.Play("Player_Weapon_Idle");
@@ -51,7 +68,6 @@ public class Player : Mob_Base
     {
         redirecting = Vector2Int.RoundToInt(movePos);
         int action = MoveManager.Instance.MoveCheck(curPos, Vector2Int.RoundToInt(movePos));
-        Debug.Log(action);
 
         switch (action)
         {
@@ -64,6 +80,7 @@ public class Player : Mob_Base
     void TrunEnd(Vector2 direction)
     {
         isMove = false;
+        if(text.m() == 0) DieDestroy();
         Anim(direction);
         MoveManager.Instance.NextTiming();
     }
@@ -75,12 +92,6 @@ public class Player : Mob_Base
         yield return new WaitForSeconds(0.5f);
         yield return StartCoroutine(MovePlayer(direction, 0.2f, false));
         TrunEnd(direction);
-    }
-
-    protected override void DieDestroy()
-    {
-        Managers.Sound.Play(dieSound);
-        allStop = true;
     }
 
     private IEnumerator MovePlayer(Vector2 direction, float sec, bool isCheck = true)

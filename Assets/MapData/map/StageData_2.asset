@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5169d07c75ac66444bc621b9237b37e6, type: 3}
+  m_Name: StageData_2
+  m_EditorClassIdentifier: 
+  battleMapData:
+  - {fileID: 11400000, guid: 5657ff9a047a68a46afd71f114e72314, type: 2}
+  - {fileID: 11400000, guid: 322de597551d3f340ae99de1a902bce5, type: 2}
+  - {fileID: 11400000, guid: 8a14ac60d97e51b4aa3b2c1a147b23d2, type: 2}
+  - {fileID: 11400000, guid: 177e827a983013a42aa966f693312b3c, type: 2}
+  - {fileID: 11400000, guid: e1f62b1538c097349a66a2684363d09d, type: 2}
+  mapTile:
+  - {fileID: 4814950924271827757, guid: febaff20263426e45a47bfb9b59908ec, type: 3}
+  mapObj:
+  - {fileID: 2008931737403400532, guid: fd52b816ac82b4d4c9c4c80b5bb12eb8, type: 3}
+  mapEnemy:
+  - {fileID: 6214279969661906447, guid: 9d793d4092b5ec34caf4c663115b4ccf, type: 3}
+  - {fileID: 6214279969661906447, guid: 576e6e98a961b6e478c9850e82da76eb, type: 3}
+  - {fileID: 6214279969661906447, guid: c2be5c0babf536f4cb655e6eaa64d159, type: 3}
+  stageCount: 0

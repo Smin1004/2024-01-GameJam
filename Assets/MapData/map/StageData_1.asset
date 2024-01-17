@@ -10,15 +10,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5169d07c75ac66444bc621b9237b37e6, type: 3}
-  m_Name: TestStageData
+  m_Name: StageData_1
   m_EditorClassIdentifier: 
   battleMapData:
-  - {fileID: 11400000, guid: b120660d188bd1c43a8e007f9a628fae, type: 2}
+  - {fileID: 11400000, guid: dd1c6ec0a8c898b43b589b0bd1ac2962, type: 2}
+  - {fileID: 11400000, guid: 5b480da58e8c1fd468373419bae3efae, type: 2}
+  - {fileID: 11400000, guid: 50d60442640c1c04a860b627cd68e644, type: 2}
+  - {fileID: 11400000, guid: de6e18c9feb207e44b64833e5264e7cc, type: 2}
+  - {fileID: 11400000, guid: 6778d1a8a45a31a4bbf7ed389e8490cd, type: 2}
+  - {fileID: 11400000, guid: 5657ff9a047a68a46afd71f114e72314, type: 2}
+  - {fileID: 11400000, guid: 322de597551d3f340ae99de1a902bce5, type: 2}
+  - {fileID: 11400000, guid: 8a14ac60d97e51b4aa3b2c1a147b23d2, type: 2}
+  - {fileID: 11400000, guid: 177e827a983013a42aa966f693312b3c, type: 2}
+  - {fileID: 11400000, guid: e1f62b1538c097349a66a2684363d09d, type: 2}
   mapTile:
   - {fileID: 4814950924271827757, guid: febaff20263426e45a47bfb9b59908ec, type: 3}
   mapObj:
   - {fileID: 2008931737403400532, guid: fd52b816ac82b4d4c9c4c80b5bb12eb8, type: 3}
-  - {fileID: 7240578024768987239, guid: 327d4e589ef70424ba7e96a3e08f74f4, type: 3}
   mapEnemy:
   - {fileID: 6214279969661906447, guid: 9d793d4092b5ec34caf4c663115b4ccf, type: 3}
   - {fileID: 6214279969661906447, guid: 576e6e98a961b6e478c9850e82da76eb, type: 3}

@@ -13,9 +13,13 @@ public class MoveManager : MonoBehaviour
 
     [SerializeField] private CameraMove cam;
     [SerializeField] private FadeManager fade;
+    [SerializeField] private GameObject gameSet;
+    [SerializeField] private GameObject clearIMG;
+
     public Player curPlayer;
     public Player subPlayer;
     public GameObject clearWin;
+    public bool isEnd;
 
     [SerializeField] private Setting _setting;
 
@@ -37,11 +41,25 @@ public class MoveManager : MonoBehaviour
         GameEnd = false;// mainScene = true;
     }
 
+    private void Update()
+    {
+
+        if (isEnd && clearIMG.activeSelf == false)
+        {
+            gameSet.SetActive(true);
+            if (Input.anyKeyDown)
+            {
+                AudioManager.Instance.PusecMisic();
+                SceneManager.LoadScene("_01_ChapterIndex");
+            }
+        }
+    }
+
     private void ChangePlayer()
     {
         if (curPlayer.StopCheck() || _setting.SettingShow || subPlayer == null) return;
 
-        if (subPlayer != null)  
+        if (subPlayer != null)
         {
             Player temp = subPlayer;
             subPlayer = curPlayer;
@@ -71,7 +89,6 @@ public class MoveManager : MonoBehaviour
     {
         if (!mainScene)
         {
-            Debug.Log("end");
             int clearStage = PlayerPrefs.GetInt("clearStage", -1);
             if (clearStage < RoundData.Instance.stageIndex)
             {
@@ -79,7 +96,8 @@ public class MoveManager : MonoBehaviour
             }
             GameEnd = true;
 
-            GameExit();
+            clearIMG.SetActive(true);
+            //GameExit();
         }
     }
 
@@ -87,7 +105,7 @@ public class MoveManager : MonoBehaviour
     {
         Vector2Int movePos = curPos + plusPos;
 
-        if(plusPos == Vector2Int.zero) return 1;
+        if (plusPos == Vector2Int.zero) return 1;
         if (curGroundMap[movePos.x, movePos.y] == 0) return 1;
         if (curMoveMap[movePos.x, movePos.y] != 0)
         {
@@ -96,6 +114,12 @@ public class MoveManager : MonoBehaviour
                 if (curMob[movePos.x, movePos.y].isNotCheck || curPlayer.isWeapon == curMob[movePos.x, movePos.y].isWeapon)
                 {
                     curMob[movePos.x, movePos.y].Hit(plusPos);
+
+                    curMob[movePos.x, movePos.y] = curMob[curPos.x, curPos.y];
+                    curMob[curPos.x, curPos.y] = null;
+
+                    curMoveMap[movePos.x, movePos.y] = curMoveMap[curPos.x, curPos.y];
+                    curMoveMap[curPos.x, curPos.y] = 0;
                     return 2;
                 }
                 else return 1;
@@ -126,7 +150,7 @@ public class MoveManager : MonoBehaviour
             {
                 movePos = curPos + new Vector2Int(i, j);
 
-                if (curMoveMap[movePos.x, movePos.y] == 1) return 2;
+                if (curMoveMap[movePos.x, movePos.y] == 1) { Debug.Log(movePos); return 2; }
             }
 
         return 1;
@@ -232,10 +256,20 @@ public class MoveManager : MonoBehaviour
         GameEnd = true;
         fade.FadeOut(1.0f);
 
-        Invoke("GoMainScene", 1);
+        //Invoke("GoMainScene", 1);
+        GoMainScene();
     }
     private void GoMainScene()
     {
-        SceneManager.LoadScene(1);
+        if (RoundData.Instance.mapIndex < 9)
+        {
+            RoundData.Instance.mapIndex++;
+            SceneManager.LoadScene(2);
+        }
+        else
+        {
+            RoundData.Instance.Reset(0);
+            SceneManager.LoadScene(0);
+        }
     }
 }

@@ -10,7 +10,7 @@ public abstract class Enemy_Base : Mob_Base
     [Header("Enemy_Base")]
     [SerializeField] protected bool cantDie;
     [SerializeField] private GameObject effect;
-    private bool isAttack;
+    [SerializeField] private bool isAttack;
     public bool isNotCheck;
     public bool isWeapon;
 
@@ -28,7 +28,8 @@ public abstract class Enemy_Base : Mob_Base
         {
             if (isAttack)
             {
-                //Player.Instance.Damage();
+                Debug.Log(this.gameObject);
+                MoveManager.Instance.curPlayer.Damage();
                 isAttack = false;
             }else isAttack = true;
         }
@@ -39,23 +40,6 @@ public abstract class Enemy_Base : Mob_Base
     {
         Instantiate(effect, transform.position, Quaternion.identity);
         dieAction?.Invoke();
-        // Vector3 movePos = new();
-
-        // if (plusPos == Vector2Int.up) movePos = Vector3.forward;
-        // if (plusPos == Vector2Int.down) movePos = Vector3.back;
-        // if (plusPos == Vector2Int.right) movePos = Vector3.right;
-        // if (plusPos == Vector2Int.left) movePos = Vector3.left;
-
-        // if (cantMove) return;
-
-        // int action = MoveManager.Instance.MoveCheck(curPos, plusPos, true);
-
-        // switch (action)
-        // {
-        //     case 0: curPos = curPos + plusPos; StartCoroutine(MoveEnemy(movePos, 0.2f)); break;
-        //     case 1: if (!cantDie) dieAction?.Invoke(); break;
-        //     case 2: break;
-        // }
     }
 
     protected override void DieDestroy()

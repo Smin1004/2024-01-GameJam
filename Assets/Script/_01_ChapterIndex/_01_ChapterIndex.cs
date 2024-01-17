@@ -10,6 +10,7 @@ public class _01_ChapterIndex : MonoBehaviour
     private void Start()
     {
         _fade.FadeIn(1.0f);
+        AudioManager.Instance.PlayMusic("ChapterSong");
         //Invoke("SceneStart", 1);
     }
     void SceneStart()

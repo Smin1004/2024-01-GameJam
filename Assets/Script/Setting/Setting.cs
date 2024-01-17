@@ -39,7 +39,12 @@ public class Setting : MonoBehaviour
     private int _keyType = 1;
     private int _key = -1;
     public bool SettingShow { get; private set; }
+    private CanvasGroup _canvasGroup;
 
+    private void Awake()
+    {
+        _canvasGroup = GetComponent<CanvasGroup>();
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -58,6 +63,7 @@ public class Setting : MonoBehaviour
         _musicSlider.onValueChanged.AddListener(x =>
         {
             PlayerPrefs.SetFloat("music", x);
+            //Managers.Sound
         });
         _sfxSlider.onValueChanged.AddListener(x =>
         {
@@ -96,6 +102,7 @@ public class Setting : MonoBehaviour
 
             _key = -1;
         }
+        _canvasGroup.blocksRaycasts = SettingShow;
     }
     public void KeyTypeChange(int i)
     {

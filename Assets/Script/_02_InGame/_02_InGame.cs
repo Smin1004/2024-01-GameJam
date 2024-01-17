@@ -10,6 +10,7 @@ public class _02_InGame : MonoBehaviour
     private void Start()
     {
         _fade.FadeIn(1.0f);
+        AudioManager.Instance.PlayMusic("InGameSong");
     }
     void Update()
     {

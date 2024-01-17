@@ -59,6 +59,7 @@ public abstract class Enemy_Base : Mob_Base
 
     protected override void DieDestroy()
     {
+        AudioManager.Instance.PlaySFX("EnemyDead");
         Rigidbody2D rigid = gameObject.AddComponent<Rigidbody2D>();
         rigid.velocity = new Vector3(Random.Range(-0.5f, 0.5f),1,0) * 7;
         rigid.AddTorque(15,ForceMode2D.Impulse);

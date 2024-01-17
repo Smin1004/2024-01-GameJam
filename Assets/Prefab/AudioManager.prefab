@@ -309,7 +309,13 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 9669960e415ea604d81fb0784634df79, type: 3}
   - name: InGameSong
     clip: {fileID: 8300000, guid: 90eae78e8ce85a849b5b0ca11b2de641, type: 3}
-  sfxSound: []
+  sfxSound:
+  - name: EnemyDead
+    clip: {fileID: 8300000, guid: b4fc8e0c664bcdd498ea96fcb9b0f910, type: 3}
+  - name: WeaponChange
+    clip: {fileID: 8300000, guid: 9cfd03171adf9104dbe20243841a5c91, type: 3}
+  - name: TitleStart
+    clip: {fileID: 8300000, guid: 8a40c51b6f5a7244b9074b73808f35bb, type: 3}
   musicSource: {fileID: 1101228022429615108}
   sfxSource: {fileID: 5114632631898003043}
   mixer: {fileID: 24100000, guid: a69e31329ca92f74abe3e9f5c56827fd, type: 2}

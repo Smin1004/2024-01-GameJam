@@ -84,6 +84,7 @@ public class _00_Title : MonoBehaviour
         if (Input.anyKeyDown && !_SceneLoaded && !_setting.SettingShow) 
         {
             AudioManager.Instance.PusecMisic();
+            AudioManager.Instance.PlaySFX("TitleStart");
             _fade.Skip();
             _fade.FadeOut(0.5f);
             _SceneLoaded = true;

@@ -77,6 +77,8 @@ public class MoveManager : MonoBehaviour
 
         curPlayer.isWeapon = !curPlayer.isWeapon;
         StartCoroutine(curPlayer.Event());
+
+        AudioManager.Instance.PlaySFX("WeaponChange");
     }
 
     public void NextTiming()

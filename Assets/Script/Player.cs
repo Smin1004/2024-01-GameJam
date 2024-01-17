@@ -57,8 +57,7 @@ public class Player : Mob_Base
         {
             case 0: curPos = Vector2Int.RoundToInt(curPos + movePos); StartCoroutine(MovePlayer(movePos, 0.2f)); break;
             case 1: TrunEnd(movePos); break;
-            case 2: curPos = Vector2Int.RoundToInt(curPos + movePos); StartCoroutine(MovePlayer(movePos, 0.2f, false));
-            Attack(); TrunEnd(movePos); break;
+            case 2: StartCoroutine(Attack(movePos)); break;
         }
     }
 
@@ -69,9 +68,13 @@ public class Player : Mob_Base
         MoveManager.Instance.NextTiming();
     }
 
-    void Attack()
+    private IEnumerator Attack(Vector2 direction)
     {
         Managers.Sound.Play(attackSound);
+        curPos = Vector2Int.RoundToInt(curPos + direction);
+        yield return new WaitForSeconds(0.5f);
+        yield return StartCoroutine(MovePlayer(direction, 0.2f, false));
+        TrunEnd(direction);
     }
 
     protected override void DieDestroy()

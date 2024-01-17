@@ -100,6 +100,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   curPos: {x: 0, y: 0}
   cantDie: 0
+  effect: {fileID: 8107978549063983271, guid: 94ef7eda1225da44a813d76dbd5ed669, type: 3}
   isNotCheck: 0
   isWeapon: 1
 --- !u!95 &3449310993540245779

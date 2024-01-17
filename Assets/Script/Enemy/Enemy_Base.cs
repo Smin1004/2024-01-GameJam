@@ -9,6 +9,7 @@ public abstract class Enemy_Base : Mob_Base
 {
     [Header("Enemy_Base")]
     [SerializeField] protected bool cantDie;
+    [SerializeField] private GameObject effect;
     private bool isAttack;
     public bool isNotCheck;
     public bool isWeapon;
@@ -36,7 +37,7 @@ public abstract class Enemy_Base : Mob_Base
 
     public virtual void Hit(Vector2Int plusPos)
     {
-        Debug.Log("die");
+        Instantiate(effect, transform.position, Quaternion.identity);
         dieAction?.Invoke();
         // Vector3 movePos = new();
 
